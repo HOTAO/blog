@@ -1,0 +1,24 @@
+{
+  "name": "blogapi",
+  "version": "1.0.0",
+  "description": "HoTao的博客后端api服务",
+  "main": "app.js",
+  "scripts": {
+    "init": "node init/index.js",
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "HoTao",
+  "license": "ISC",
+  "devDependencies": {
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-cors": "0.0.16",
+    "koa-router": "^7.4.0",
+    "mysql": "^2.16.0"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "qiniu": "^7.2.1"
+  }
+}
