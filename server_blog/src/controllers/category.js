@@ -37,7 +37,8 @@ const category = {
   },
   async getCateGory(ctx) {
     const list = await db_category.getCateGorys()
-    ctx.body = { list }
+    const count = await db_category.getCateGoryCount()
+    ctx.body = { list, count: count[0].total_count || 0 }
   }
 }
 

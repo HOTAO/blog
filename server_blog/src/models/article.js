@@ -36,13 +36,44 @@ const article = {
     tag = ''
   } = {}) {
     let query = arguments[0] ? dbMethods.andWhere(arguments[0]) : ''
-    console.log(query)
     query = query.replace('status', 'a.status')
     delete query.status
-    console.log(query)
     let result = []
     const _sql = `
-    select a.id as id, title, cover, pageview, a.status as status, isSecret, category_id, c.name as categoryName, a.create_time as createTime, a.update_time as updateTime, a.publish_time as publishTime, a.delete_time as deleteTime, content, html_content from ${table_name} a left join category c on a.category_id = c.id  ${query} limit ${(page -
+    select a.id as id, title, cover, pageview, a.status as status, isSecret, category_id, c.name as categoryName, a.create_time as createTime, a.update_time as updateTime, a.publish_time as publishTime, a.delete_time as deleteTime, content, html_content, a.dec from ${table_name} a left join category c on a.category_id = c.id  ${query} limit ${(page -
+      1) *
+      pageSize}, ${pageSize} `
+    result = await dbUtils.query(_sql)
+    result.map(item => {})
+    return result
+  },
+
+  /**
+   * @description 根据文章id数组，获取文章列表信息
+   * @author HOTAO
+   * @date 2018-09-19
+   * @param {*} [{
+   *     page = 1,
+   *     pageSize = 10,
+   *     status = '',
+   *     aids = ''
+   *   }={}]
+   * @returns
+   */
+  async getArticlesByAids({
+    page = 1,
+    pageSize = 10,
+    status = '',
+    aids = ''
+  } = {}) {
+    let query = ''
+    aids.map(item => {
+      query += ` '${item}',`
+    })
+    query = query.substring(0, query.length - 1)
+    let result = []
+    const _sql = `
+    select a.id as id, title, cover, pageview, a.status as status, isSecret, category_id, c.name as categoryName, a.create_time as createTime, a.update_time as updateTime, a.publish_time as publishTime, a.delete_time as deleteTime, content, html_content, a.dec from ${table_name} a left join category c on a.category_id = c.id  where a.id in (${query}) and a.status = '2' limit ${(page -
       1) *
       pageSize}, ${pageSize} `
     result = await dbUtils.query(_sql)
@@ -59,10 +90,10 @@ const article = {
   async getArticleInfoById(aid) {
     const _sql1 = `
     select a.id as id, title, cover, pageview, a.status as status, isSecret, category_id, c.name as categoryName, a.create_time as create_time, a.update_time as update_time, a.publish_time as publish_time, a.delete_time as deleteTime, content, html_content, a.dec from ${table_name} a left join category c on a.category_id = c.id  where a.id = '${aid}'`
-    const _sql2 = `SELECT tag_id, t.name as tag_name  from article_tag_mapper atm left join tag t on atm.tag_id = t.id where atm.article_id = '${aid}'`
+    // const _sql2 = `SELECT tag_id, t.name as tag_name  from article_tag_mapper atm left join tag t on atm.tag_id = t.id where atm.article_id = '${aid}'`
+    // tags = await dbUtils.query(_sql2)
     articleInfo = await dbUtils.query(_sql1)
-    tags = await dbUtils.query(_sql2)
-    return { articleInfo, tags }
+    return { articleInfo }
   },
   async updateArticleById(aid, options) {
     const result = await dbUtils.updateData(table_name, options, aid)
@@ -86,7 +117,7 @@ const article = {
     const result = await dbUtils.deleteDataById(table_name, aid)
     return result
   },
-  async getArticlesCount({ category_id = '', tag_id = '' } = {}) {
+  async getArticlesCount({ category_id = '', tag_id = '', status = 2 } = {}) {
     let query = dbMethods.andWhere(arguments[0])
     const _sql = `select count(*) as total_count from ${table_name} ${query}`
     const result = await dbUtils.query(_sql)

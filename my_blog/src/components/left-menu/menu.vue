@@ -2,7 +2,7 @@
   <div id="leftMenu" :style="{width: collapseMenu ? '64px' : '240px'}">
     <div class="wrap">
       <el-menu router class="menu" background-color="#262a30" text-color="#a7b1c2" active-text-color="#ffffff" :default-active="$route.path" :collapse="collapseMenu">
-        <el-menu-item index="/admin">
+        <el-menu-item index="/BackEnd/Home">
           <i class="iconfont icon-home"></i>
           <span slot="title">首页</span>
         </el-menu-item>
@@ -52,7 +52,7 @@
           <el-menu-item index="/BackEnd/WebConfig/Friends">
             <i class="iconfont icon-friends-link"></i>友链管理</el-menu-item>
         </el-submenu>
-        <el-submenu index="5">
+        <el-submenu index="6">
           <template slot="title">
             <i class="iconfont icon-other"></i>
             <span slot="title">其他</span>

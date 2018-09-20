@@ -3,12 +3,14 @@ import api from '../../api/index'
 
 const state = {
   isBackEnd: false,
-  uploadToken: {}
+  uploadToken: {},
+  staticleInfo: {}
 }
 
 const getters = {
   isBackEnd: state => state.isBackEnd,
-  uploadToken: state => state.uploadToken
+  uploadToken: state => state.uploadToken,
+  staticleInfo: state => state.staticleInfo
 }
 
 const mutations = {
@@ -19,6 +21,10 @@ const mutations = {
   [type.SET_UPLOADTOKEN](state, data) {
     console.log(data)
     state.uploadToken = data
+  },
+  [type.SET_STATISTICSINFO](state, data) {
+    console.log(data)
+    state.staticleInfo = data
   }
 }
 
@@ -27,6 +33,12 @@ const actions = {
     console.log('test')
     const result = await api.getUploadToken()
     store.commit(type.SET_UPLOADTOKEN, result)
+    console.log(result)
+    return result
+  },
+  async getHomeStatistics(store) {
+    const result = await api.getHomeStatistics()
+    store.commit(type.SET_STATISTICSINFO, result)
     console.log(result)
     return result
   }

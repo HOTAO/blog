@@ -1,8 +1,14 @@
 import request from '../axios'
 
 export default {
-  getArticles(params) {
-    return request.get('/getArticles', { params })
+  getArticlesForWeb(params) {
+    return request.get('/getArticlesForWeb', { params })
+  },
+  getArticlesForServer(params) {
+    return request.get('/getArticlesForServer', { params })
+  },
+  getArticleByTag(tid) {
+    return request.get(`/getArticleByTag/${tid}`)
   },
   getArticleInfoById(aid) {
     return request.get(`/getArticleInfoById/${aid}`)

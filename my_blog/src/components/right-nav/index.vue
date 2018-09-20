@@ -11,8 +11,8 @@
           <div class="article-menu"></div>
           <div class="siet-info">
             <img src="~@/assets/test.png" alt="">
-            <p class="name">Hotao</p>
-            <p>前端开发、小程序开发、node开发....希望成为程序员的码农</p>
+            <p class="name">{{baseInfo.blog_name}}</p>
+            <p>{{baseInfo.salt}}</p>
           </div>
           <div class="siet-menu">
             <div class="menu-item">
@@ -28,10 +28,10 @@
               <p>标签</p>
             </div>
           </div>
-          <div class="github">
+          <a class="github" :href="baseInfo.github" target="_black">
             <i class="iconfont icon-github"></i>
             github
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -45,13 +45,25 @@
 <script>
 export default {
   name: 'rightNav',
+  computed: {
+    ...mapGetters('webConfig', ['baseInfo'])
+  },
   data() {
     return {
       width: 0,
       show: false
     }
   },
+  created() {
+    this._getWebConfig()
+  },
   methods: {
+    ...mapActions('webConfig', ['getWebConfig']),
+    _getWebConfig() {
+      return this.getWebConfig().then(res => {
+        console.log(res)
+      })
+    },
     openNav() {
       this.show = !this.show
       this.width = this.show ? '320px' : 0

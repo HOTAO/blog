@@ -1,7 +1,7 @@
 <template>
   <div id="IconCard">
     <div class="cards">
-      <div class="card" v-for="card in list" :key="card.icon" :style="{backgroundColor: card.backgroundColor}">
+      <div class="card" v-for="card in list" :key="card.icon" :style="{backgroundColor: card.backgroundColor}" @click="$router.push({name: card.to})">
         <i class="iconfont" :class="card.icon"></i>
         <div class="card-info">
           <p>{{card.topMessage}}</p>

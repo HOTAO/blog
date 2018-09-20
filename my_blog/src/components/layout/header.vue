@@ -27,7 +27,7 @@ export default {
         {
           text: '分类/标签',
           icon: 'tag',
-          route: 'Categories'
+          route: 'Classify'
         },
         {
           text: '归档',
@@ -37,7 +37,7 @@ export default {
         {
           text: '关于',
           icon: 'about',
-          route: 'About'
+          route: 'AboutMe'
         },
         {
           text: '友链',

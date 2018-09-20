@@ -1,5 +1,5 @@
 const dbUtils = require('../util/db')
-const db_method = require('../util/db-methods')
+const dbMethod = require('../util/db-methods')
 const table_name = 'category'
 
 const category = {
@@ -20,6 +20,12 @@ const category = {
   async getCateGorys({ page = 1, pageSize = 10 } = {}) {
     const _sql = `select * from category limit ${(page - 1) *
       pageSize}, ${pageSize} `
+    const result = await dbUtils.query(_sql)
+    return result
+  },
+  async getCateGoryCount({ status = 1 } = {}) {
+    let query = dbMethod.andWhere(arguments[0])
+    const _sql = `select count(*) as total_count from ${table_name} ${query}`
     const result = await dbUtils.query(_sql)
     return result
   }

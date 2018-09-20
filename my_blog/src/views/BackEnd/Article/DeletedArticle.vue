@@ -1,7 +1,7 @@
 <template>
   <div id="DeleteArticle">
-    <div class="title">回收站（共计：{{articleListInfo.count}}篇）</div>
-    <el-table :data="articleListInfo.list" border stripe size="mini" style="width: 100%">
+    <div class="title">回收站（共计：{{server_articleListInfo.count}}篇）</div>
+    <el-table :data="server_articleListInfo.list" border stripe size="mini" style="width: 100%">
       <el-table-column prop="title" label="标题" min-width="200">
       </el-table-column>
       <el-table-column prop="cover" label="封面图" width="121">
@@ -50,7 +50,7 @@
 export default {
   name: 'DeleteArticle',
   computed: {
-    ...mapGetters('article', ['articleListInfo'])
+    ...mapGetters('article', ['server_articleListInfo'])
   },
   data() {
     return {
@@ -70,20 +70,20 @@ export default {
     }
   },
   created() {
-    this._getArticles()
+    this._getArticlesForServer()
   },
   methods: {
-    ...mapActions('article', ['getArticles', 'updateArticleByStatus']),
+    ...mapActions('article', ['getArticlesForServer', 'updateArticleByStatus']),
     _formatStatus(value) {
       return value == '0' ? '已删除' : '-'
     },
-    _getArticles() {
+    _getArticlesForServer() {
       const params = {
         status: 0,
         page: 1,
         pageSize: 10
       }
-      return this.getArticles(params)
+      return this.getArticlesForServer(params)
     }
   }
 }

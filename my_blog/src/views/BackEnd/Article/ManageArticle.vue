@@ -1,7 +1,7 @@
 <template>
   <div id="ManageArticle">
-    <div class="title">文章管理（共计：{{articleListInfo.count}}篇）</div>
-    <el-table :data="articleListInfo.list" border stripe size="mini" style="width: 100%">
+    <div class="title">文章管理（共计：{{server_articleListInfo.count}}篇）</div>
+    <el-table :data="server_articleListInfo.list" border stripe size="mini" style="width: 100%">
       <el-table-column prop="title" label="标题" min-width="200">
       </el-table-column>
       <el-table-column label="封面图" width="121">
@@ -67,13 +67,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('article', ['articleListInfo'])
+    ...mapGetters('article', ['server_articleListInfo'])
   },
   async created() {
-    await this._getArticles()
+    await this._getArticlesForServer()
   },
   methods: {
-    ...mapActions('article', ['getArticles', 'updateArticleByStatus']),
+    ...mapActions('article', ['getArticlesForServer', 'updateArticleByStatus']),
     _formatStatus(value) {
       return value == '2' ? '已发布' : '-'
     },
@@ -86,16 +86,18 @@ export default {
           aid,
           status: 0
         }
-        this.updateArticleByStatus(params)
+        this.updateArticleByStatus(params).then(() => {
+          this._getArticlesForServer()
+        })
       })
     },
-    _getArticles() {
+    _getArticlesForServer() {
       const params = {
         status: 2,
         page: 1,
         pageSize: 10
       }
-      return this.getArticles(params)
+      return this.getArticlesForServer(params)
     }
   }
 }

@@ -33,7 +33,8 @@ const tag = {
   },
   async getTags(ctx) {
     const list = await db_tag.getTags()
-    ctx.body = { list }
+    const count = await db_tag.getTagsCount()
+    ctx.body = { list, count: count[0].total_count || 0 }
   }
 }
 

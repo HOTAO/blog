@@ -1,4 +1,5 @@
 const dbUtils = require('../util/db')
+const dbMethod = require('../util/db-methods')
 const table_name = 'tag'
 const tag = {
   async insertTag(model) {
@@ -20,6 +21,12 @@ const tag = {
   },
   async updateTag(tid, options) {
     const result = await dbUtils.updateData(table_name, options, tid)
+    return result
+  },
+  async getTagsCount({ status = 1 } = {}) {
+    let query = dbMethod.andWhere(arguments[0])
+    const _sql = `select count(*) as total_count from ${table_name} ${query}`
+    const result = await dbUtils.query(_sql)
     return result
   }
 }

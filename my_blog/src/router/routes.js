@@ -3,31 +3,43 @@ const FrontEndRoutes = [
     path: '/',
     name: 'Home',
     component: () =>
-      import(/* webpackChunkName: "home" */ '../views/FrontEnd/Home.vue')
+      import(/* webpackChunkName: "home" */ '../views/FrontEnd/Home/Home.vue')
   },
   {
-    path: '/Categories',
-    name: 'Categories',
+    path: '/Classify',
+    name: 'Classify',
     component: () =>
-      import(/* webpackChunkName: "categories" */ '../views/FrontEnd/Categories.vue')
+      import(/* webpackChunkName: "classify" */ '../views/FrontEnd/Classify/Classify.vue')
   },
   {
     path: '/Archives',
     name: 'Archives',
     component: () =>
-      import(/* webpackChunkName: "archives" */ '../views/FrontEnd/Archives.vue')
+      import(/* webpackChunkName: "archives" */ '../views/FrontEnd/Archives/Archives.vue')
   },
   {
     path: '/Friends',
     name: 'Friends',
     component: () =>
-      import(/* webpackChunkName: "friends" */ '../views/FrontEnd/Friends.vue')
+      import(/* webpackChunkName: "friends" */ '../views/FrontEnd/Friends/Friends.vue')
   },
   {
-    path: '/About',
-    name: 'About',
+    path: '/AboutMe',
+    name: 'AboutMe',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/FrontEnd/About.vue')
+      import(/* webpackChunkName: "me" */ '../views/FrontEnd/Me/Me.vue')
+  },
+  {
+    path: '/Article/:id',
+    name: 'Article',
+    component: () =>
+      import(/* webpackChunkName: "article" */ '../views/FrontEnd/Article/Article.vue')
+  },
+  {
+    path: '/ArticleList',
+    name: 'ArticleList',
+    component: () =>
+      import(/* webpackChunkName: "articleList" */ '../views/FrontEnd/Article/ArticleList.vue')
   }
 ]
 const BackEndRoutes = [
@@ -82,7 +94,7 @@ const BackEndRoutes = [
   },
   {
     path: '/BackEnd/Classify/Tags',
-    name: 'Tags',
+    name: 'BackEndTags',
     meta: { isBackEnd: true },
     component: () =>
       import(/* webpackChunkName: "Tags" */ '../views/BackEnd/Classify/Tags.vue')

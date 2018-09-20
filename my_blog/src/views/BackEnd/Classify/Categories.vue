@@ -1,10 +1,10 @@
 <template>
   <div id="Categories">
-    <div class="title">分类（共计：13种）</div>
+    <div class="title">分类（共计：{{categorysInfo.count}}种）</div>
     <div class="actions">
       <span @click="_showDialog">新增分类</span>
     </div>
-    <el-table :data="categorys" border stripe size="mini" style="width: 100%">
+    <el-table :data="categorysInfo.list" border stripe size="mini" style="width: 100%">
       <el-table-column prop="name" label="分类名称" show-overflow-tooltip min-width="120">
       </el-table-column>
       <el-table-column prop="article_count" label="文章数" width="60">
@@ -54,7 +54,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('classify', ['categorys'])
+    ...mapGetters('classify', ['categorysInfo'])
   },
   created() {
     this._getCategory()

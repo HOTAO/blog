@@ -1,5 +1,5 @@
 const moment = require('moment')
-
+moment.locale('zh-cn')
 export default function timestampFormatter(timestamp, format) {
   let result = ''
   timestamp = parseInt(timestamp, 0)

@@ -10,7 +10,25 @@ const articleController = {
    * @date 2018-09-04
    * @param {*} ctx
    */
-  async getArticles(ctx) {
+  async getArticlesForWeb(ctx) {
+    const list = await db_article.getArticles(ctx.query)
+    const count = await db_article.getArticlesCount(ctx.query)
+    const resultList = []
+    for (let index = 0; index < list.length; index++) {
+      const item = list[index]
+      const tags = await db_article_tag_mapper.getTagsByArticleId(item.id)
+      resultList.push({ article: item, tags: tags })
+    }
+    ctx.body = { list: resultList, count: count[0].total_count || 0 }
+  },
+
+  /**
+   * @description 获取articleList
+   * @author HOTAO
+   * @date 2018-09-04
+   * @param {*} ctx
+   */
+  async getArticlesForServer(ctx) {
     const list = await db_article.getArticles(ctx.query)
     const count = await db_article.getArticlesCount(ctx.query)
     ctx.body = { list, count: count[0].total_count || 0 }
@@ -25,7 +43,36 @@ const articleController = {
   async getArticleInfoById(ctx) {
     const article_id = ctx.params.article_id
     const result = await db_article.getArticleInfoById(article_id)
+    const tags = await db_article_tag_mapper.getTagsByArticleId(article_id)
     ctx.body = { articleInfo: result.articleInfo[0], tags: tags }
+  },
+
+  /**
+   * @description 根据标签获取文章列表
+   * @author HOTAO
+   * @date 2018-09-19
+   * @param {*} ctx
+   */
+  async getArticleByTag(ctx) {
+    const tag_id = ctx.params.tag_id
+    const result = await db_article_tag_mapper.getArticlesByTagId(tag_id)
+    if (result.length <= 0) {
+      ctx.body = { list: [], count: 0 }
+      return
+    }
+    const count = await db_article_tag_mapper.getCount({ tag_id })
+    let aids = []
+    result.map(item => {
+      aids.push(item.article_id)
+    })
+    const list = await db_article.getArticlesByAids({ aids })
+    const resultList = []
+    for (let index = 0; index < list.length; index++) {
+      const item = list[index]
+      const tags = await db_article_tag_mapper.getTagsByArticleId(item.id)
+      resultList.push({ article: item, tags: tags })
+    }
+    ctx.body = { list: resultList, count: count[0].total_count || 0 }
   },
 
   /**

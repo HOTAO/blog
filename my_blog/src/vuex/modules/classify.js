@@ -2,23 +2,23 @@ import * as type from '../types'
 import api from '../../api/index'
 
 const state = {
-  categorys: [],
-  tags: []
+  categorysInfo: {},
+  tagsInfo: {}
 }
 
 const getters = {
-  categorys: state => state.categorys,
-  tags: state => state.tags
+  categorysInfo: state => state.categorysInfo,
+  tagsInfo: state => state.tagsInfo
 }
 
 const mutations = {
   [type.SET_CATEGORYS](state, data) {
     console.log(data)
-    state.categorys = data.list
+    state.categorysInfo = data
   },
   [type.SET_TAGS](state, data) {
     console.log(data)
-    state.tags = data.list
+    state.tagsInfo = data
   }
 }
 

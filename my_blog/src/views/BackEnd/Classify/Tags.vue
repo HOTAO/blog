@@ -1,10 +1,10 @@
 <template>
   <div id="Tags">
-    <div class="title">标签（共计：13种）</div>
+    <div class="title">标签（共计：{{tagsInfo.count}}种）</div>
     <div class="actions">
       <span @click="_showDialog">新增标签</span>
     </div>
-    <el-table :data="tags" border stripe size="mini" style="width: 100%">
+    <el-table :data="tagsInfo.list" border stripe size="mini" style="width: 100%">
       <el-table-column prop="name" label="分类名称" show-overflow-tooltip min-width="120">
       </el-table-column>
       <el-table-column prop="article_count" label="文章数" width="60">
@@ -54,7 +54,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('classify', ['tags'])
+    ...mapGetters('classify', ['tagsInfo'])
   },
   created() {
     this._getTags()

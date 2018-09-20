@@ -2,18 +2,26 @@ import * as type from '../types'
 import api from '../../api/index'
 
 const state = {
-  articleListInfo: {},
-  articleData: {}
+  web_articleListInfo: {},
+  server_articleListInfo: {},
+  articleData: {
+    articleInfo: {},
+    tags: {}
+  }
 }
 
 const getters = {
-  articleListInfo: state => state.articleListInfo,
+  web_articleListInfo: state => state.web_articleListInfo,
+  server_articleListInfo: state => state.server_articleListInfo,
   articleData: state => state.articleData
 }
 
 const mutations = {
-  [type.SET_ARTICLE_LIST_INFO](state, data) {
-    state.articleListInfo = data
+  [type.SET_WEB_ARTICLE_LIST_INFO](state, data) {
+    state.web_articleListInfo = data
+  },
+  [type.SET_SERVER_ARTICLE_LIST_INFO](state, data) {
+    state.server_articleListInfo = data
   },
   [type.SET_ARTICLEINFO](state, data) {
     state.articleData = data
@@ -21,9 +29,19 @@ const mutations = {
 }
 
 const actions = {
-  async getArticles(store, params) {
-    const result = await api.getArticles(params)
-    store.commit(type.SET_ARTICLE_LIST_INFO, result)
+  async getArticleByTag(store, tid) {
+    const result = await api.getArticleByTag(tid)
+    store.commit(type.SET_WEB_ARTICLE_LIST_INFO, result)
+    return result
+  },
+  async getArticlesForWeb(store, params) {
+    const result = await api.getArticlesForWeb(params)
+    store.commit(type.SET_WEB_ARTICLE_LIST_INFO, result)
+    return result
+  },
+  async getArticlesForServer(store, params) {
+    const result = await api.getArticlesForServer(params)
+    store.commit(type.SET_SERVER_ARTICLE_LIST_INFO, result)
     return result
   },
   async getArticleInfoById(store, aid) {

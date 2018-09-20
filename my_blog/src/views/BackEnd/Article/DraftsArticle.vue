@@ -1,7 +1,7 @@
 <template>
   <div id="DraftsArticle">
-    <div class="title">草稿箱（共计：13篇）</div>
-    <el-table :data="articleListInfo.list" border stripe size="mini" style="width: 100%">
+    <div class="title">草稿箱（共计：{{server_articleListInfo.count}}篇）</div>
+    <el-table :data="server_articleListInfo.list" border stripe size="mini" style="width: 100%">
       <el-table-column prop="title" label="标题" min-width="200">
       </el-table-column>
       <el-table-column prop="cover" label="封面图" width="121">
@@ -50,7 +50,7 @@
 export default {
   name: 'DraftsArticle',
   computed: {
-    ...mapGetters('article', ['articleListInfo'])
+    ...mapGetters('article', ['server_articleListInfo'])
   },
   data() {
     return {
@@ -70,10 +70,10 @@ export default {
     }
   },
   created() {
-    this._getArticles()
+    this._getArticlesForServer()
   },
   methods: {
-    ...mapActions('article', ['getArticles']),
+    ...mapActions('article', ['getArticlesForServer']),
     _formatStatus(value) {
       return value == '1' ? '未发布' : '-'
     },
@@ -89,13 +89,13 @@ export default {
         this.updateArticleByStatus(params)
       })
     },
-    _getArticles() {
+    _getArticlesForServer() {
       const params = {
         status: 1,
         page: 1,
         pageSize: 10
       }
-      return this.getArticles(params)
+      return this.getArticlesForServer(params)
     }
   }
 }

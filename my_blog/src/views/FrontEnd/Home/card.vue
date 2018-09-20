@@ -1,26 +1,28 @@
 <template>
   <div id="card">
     <div class="container">
-      <el-card class="article" v-for="article in list" :key="article">
+      <el-card class="article" v-for="item in list" :key="item.article.id">
         <div class="article-cover">
-          <img class="" src="@/assets/test.png" alt="">
-          <span class="article-title">全栈开发 --> 默认的文章title{{article}}</span>
+          <img class="" :src="item.article.cover" alt="">
+          <div class="article-title">
+            <span @click="$router.push({name:'Article',params:{id:item.article.id}})">{{item.article.title}}</span>
+          </div>
         </div>
         <div class="article-info">
           <i class="iconfont icon-calendar"></i>
-          <span>发表于 2018年08月27日</span>
+          <span>发表于 {{item.article.createTime | timeFormat('LL')}}</span>
           <i class="iconfont icon-folder"></i>
-          <span>vue开发</span>
+          <span class="article-category" @click="$router.push({name: 'ArticleList',query:{type:'category',id: item.article.category_id}})">{{item.article.categoryName}}</span>
           <i class="iconfont icon-eye"></i>
-          <span>1234次围观</span>
+          <span>{{item.article.pageview}}次围观</span>
         </div>
         <div class="article-dec">
-          这是一篇关于如何搭建一个属于自己的博客的文章，为什么要这做呢，因为，这样就可以把平时所学的东西往上面放，可以share出去。
+          {{item.article.dec}}
         </div>
         <div class="acticle-tags">
-          <div class="tag">
+          <div class="tag" v-for="tag in item.tags" :key="tag.tag_id" @click="$router.push({name: 'ArticleList',query:{type:'tag',id: tag.tag_id}})">
             <i class="iconfont icon-tag"></i>
-            <span>博客</span>
+            <span>{{tag.tag_name}}</span>
           </div>
         </div>
         <span class="acticle-read">阅读全文 >></span>
@@ -55,6 +57,10 @@ export default {
       color white
       font-size 24px
       font-weight bold
+      span
+        hover-underline-animation(0, 0, 2px, white, 0, 0, 0, 0)
+        &:hover
+          hover-underline-animation(0, 0, 2px, white, 0, 0, 0, 100%)
     img
       width 100%
   .article-info
@@ -64,6 +70,9 @@ export default {
     font-size 14px
     margin 20px 0
     color $color-mid-grey
+    .article-category
+      cursor pointer
+      border-bottom 1px solid $color-main
     span
       margin-right 10px
   .article-dec
@@ -88,11 +97,11 @@ export default {
       cursor pointer
       &:hover
         background-color rgba($color-main, 0.8)
-    .iconfont
-      font-size 12px
-      margin-right 4px
+  >>>.iconfont
+    font-size 12px
+    margin-right 4px
   .acticle-read
-    hover-underline-animation(0,100%)
+    hover-underline-animation(0, 100%)
     font-size 14px
     margin-top 20px
     cursor pointer

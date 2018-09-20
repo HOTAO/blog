@@ -6,11 +6,11 @@
       <div class="content left">
         <div class="title">最新文章</div>
         <div class="items">
-          <div class="item" v-for="article in articles" :key="article">
-            <div class="item-title">文章title</div>
+          <div class="item" v-for="article in articleListInfo.list" :key="article.id">
+            <div class="item-title">{{article.title}}</div>
             <div class="item-time">
               <i class="iconfont icon-calendar"></i>
-              2018-08-31
+              {{article.createTime | timeFormat('YYYY-MM-DD')}}
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@ export default {
           topMessage: '共发表了',
           middleMessage: '0',
           bottomMessage: '篇文章',
-          to: 'articleManage'
+          to: 'ManageArticle'
         },
         {
           backgroundColor: '#7e57c2',
@@ -52,7 +52,7 @@ export default {
           topMessage: '草稿箱共有',
           middleMessage: '0',
           bottomMessage: '篇文章',
-          to: 'articleDrafts'
+          to: 'DraftsArticle'
         },
         {
           backgroundColor: '#33b86c',
@@ -60,23 +60,23 @@ export default {
           topMessage: '垃圾箱共有',
           middleMessage: '0',
           bottomMessage: '篇文章',
-          to: 'articleDeleted'
+          to: 'DeletedArticle'
         },
         {
           backgroundColor: '#6e8cd7',
           icon: 'icon-tag',
           topMessage: '共有',
           middleMessage: '0',
-          bottomMessage: '个分类/标签',
-          to: 'adminCategories'
+          bottomMessage: '个分类',
+          to: 'BackEndCategories'
         },
         {
           backgroundColor: '#E6A23C',
           icon: 'icon-comments',
           topMessage: '共有',
           middleMessage: '0',
-          bottomMessage: '条评论',
-          to: 'adminComments'
+          bottomMessage: '个标签',
+          to: 'BackEndTags'
         }
       ],
       articles: [1, 2, 3, 4]
@@ -84,6 +84,34 @@ export default {
   },
   components: {
     IconCard
+  },
+  computed: {
+    ...mapGetters(['staticleInfo']),
+    ...mapGetters('article', ['articleListInfo'])
+  },
+  async created() {
+    await this._getArticles()
+    await this._getHomeStaticle()
+    this.list[0].middleMessage = this.staticleInfo.publish_count
+    this.list[1].middleMessage = this.staticleInfo.drafts_count
+    this.list[2].middleMessage = this.staticleInfo.deleted_count
+    this.list[3].middleMessage = this.staticleInfo.category_count
+    this.list[4].middleMessage = this.staticleInfo.tag_count
+  },
+  methods: {
+    ...mapActions(['getHomeStatistics']),
+    ...mapActions('article', ['getArticles']),
+    _getArticles() {
+      const params = {
+        status: 2,
+        page: 1,
+        pageSize: 10
+      }
+      return this.getArticles(params)
+    },
+    _getHomeStaticle() {
+      return this.getHomeStatistics()
+    }
   }
 }
 </script>
