@@ -14,9 +14,9 @@
         {{article.dec}}
       </div>
       <div class="acticle-tags">
-        <div class="tag" v-for="tag in tags" :key="tag.tag_id">
+        <div class="tag" v-for="tag in tags" :key="tag.tag_id" @click="$router.push({name: 'ArticleList',query:{type:'tag',id: tag.tag_id}})">
           <i class="iconfont icon-tag"></i>
-          <span @click="$router.push({name: 'ArticleList',query:{type:'tag',id: tag.tag_id}})">{{tag.tag_name}}</span>
+          <span>{{tag.tag_name}}</span>
         </div>
       </div>
     </div>

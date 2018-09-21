@@ -38,20 +38,21 @@ export default {
           text: '关于',
           icon: 'about',
           route: 'AboutMe'
-        },
-        {
-          text: '友链',
-          icon: 'friends-link',
-          route: 'Friends'
-        },
-        {
-          text: '更多',
-          icon: 'more'
-        },
-        {
-          text: '搜索',
-          icon: 'search'
         }
+        // ,
+        // {
+        //   text: '友链',
+        //   icon: 'friends-link',
+        //   route: 'Friends'
+        // },
+        // {
+        //   text: '更多',
+        //   icon: 'more'
+        // },
+        // {
+        //   text: '搜索',
+        //   icon: 'search'
+        // }
       ]
     }
   },

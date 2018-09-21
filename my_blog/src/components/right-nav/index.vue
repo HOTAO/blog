@@ -10,21 +10,21 @@
         <div class="nav-info">
           <div class="article-menu"></div>
           <div class="siet-info">
-            <img src="~@/assets/test.png" alt="">
+            <img :src="baseInfo.avatar" alt="">
             <p class="name">{{baseInfo.blog_name}}</p>
             <p>{{baseInfo.salt}}</p>
           </div>
           <div class="siet-menu">
-            <div class="menu-item">
-              <p class="num">8</p>
+            <div class="menu-item" @click="$router.push({name:'Archives'})">
+              <p class="num">{{staticleInfo.publish_count}}</p>
               <p>文章</p>
             </div>
-            <div class="menu-item">
-              <p class="num">4</p>
+            <div class="menu-item" @click="$router.push({name:'Classify'})">
+              <p class="num">{{staticleInfo.category_count}}</p>
               <p>分类</p>
             </div>
-            <div class="menu-item">
-              <p class="num">11</p>
+            <div class="menu-item" @click="$router.push({name:'Classify'})">
+              <p class="num">{{staticleInfo.tag_count}}</p>
               <p>标签</p>
             </div>
           </div>
@@ -46,6 +46,7 @@
 export default {
   name: 'rightNav',
   computed: {
+    ...mapGetters(['staticleInfo']),
     ...mapGetters('webConfig', ['baseInfo'])
   },
   data() {
@@ -55,14 +56,13 @@ export default {
     }
   },
   created() {
-    this._getWebConfig()
+    this._getHomeStaticle()
   },
   methods: {
     ...mapActions('webConfig', ['getWebConfig']),
-    _getWebConfig() {
-      return this.getWebConfig().then(res => {
-        console.log(res)
-      })
+    ...mapActions(['getHomeStatistics']),
+    _getHomeStaticle() {
+      return this.getHomeStatistics()
     },
     openNav() {
       this.show = !this.show

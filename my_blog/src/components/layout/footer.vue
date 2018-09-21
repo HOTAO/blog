@@ -5,14 +5,15 @@
         本站年龄：{{text}}
       </p>
       <p>
-        @HoTao————前端开发、小程序开发、node开发....希望成为程序员的码农
+        @{{baseInfo.blog_name}}--{{baseInfo.sign}}
       </p>
-      <p>
+      <!-- <p>
         本站点采用
         <a href="">xxxxxxxxxxxxxxx协议</a>
-      </p>
+      </p> -->
       <p>
-        本站由 @HoTao 创建 - @2018.粤ICP背xxxxxxx号
+        本站由 @HoTao 创建 - @2018.
+        <a href="http://www.miitbeian.gov.cn/" target="_black">粤ICP备18117296号</a>
       </p>
     </div>
   </div>
@@ -20,6 +21,9 @@
 <script>
 export default {
   name: 'footerLayout',
+  computed: {
+    ...mapGetters('webConfig', ['baseInfo'])
+  },
   data() {
     return {
       createdTime: '1535438335433',
@@ -27,6 +31,7 @@ export default {
     }
   },
   created() {
+    this._getWebConfig()
     setInterval(() => {
       let time = new Date() - this.createdTime
       let day = parseInt(time / 1000 / 60 / 60 / 24, 10)
@@ -35,6 +40,12 @@ export default {
       let second = parseInt((time / 1000) % 60, 10)
       this.text = `${day}天${hour}小时${minute}分${second}秒`
     }, 1000)
+  },
+  methods: {
+    ...mapActions('webConfig', ['getWebConfig']),
+    _getWebConfig() {
+      return this.getWebConfig()
+    }
   }
 }
 </script>
@@ -50,4 +61,7 @@ export default {
     height $footerHeight
   p
     padding 4px 0
+    a
+      color $color-light-grey
+      text-decoration underline
 </style>

@@ -12,12 +12,12 @@ const options = {
   scope: Bucket,
   expires,
   returnBody: `{
-    "url": "http://pez46i4f2.bkt.clouddn.com/$(key)"
+    "url": "http://blogimg.hotao.work/$(key)"
   }`
 }
-const config = new QN.conf.Config()
+// const config = new QN.conf.Config()
 // 空间对应的机房
-config.zone = QN.zone.Zone_z2
+// config.zone = QN.zone.Zone_z2
 
 const qiniu = {
   async getUploadToken() {

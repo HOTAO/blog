@@ -23,11 +23,11 @@
         <el-checkbox label="阅读加密" size="mini" v-model="article.isSecret"></el-checkbox>
         <br>
         <el-select size="mini" v-model="article.category_id" placeholder="文章分类">
-          <el-option size="mini" v-for="item in categorys" :key="item.id" :value="item.id" :label="item.name"></el-option>
+          <el-option size="mini" v-for="cate in categorysInfo.list" :key="cate.id" :value="cate.id" :label="cate.name"></el-option>
         </el-select>
         <br>
-        <el-select size="mini" v-model="article.tags" multiple filterable allow-create default-first-option placeholder="文章标签">
-          <el-option size="mini" v-for="item in tags" :key="item.id" :value="item.id" :label="item.name"></el-option>
+        <el-select size="mini" v-model="tags" multiple filterable allow-create default-first-option placeholder="文章标签">
+          <el-option size="mini" v-for="tag in tagsInfo.list" :key="tag.id" :value="tag.id" :label="tag.name"></el-option>
         </el-select>
       </div>
     </div>
@@ -47,39 +47,35 @@ export default {
   computed: {
     ...mapGetters(['uploadToken']),
     ...mapGetters('article', ['articleData']),
-    ...mapGetters('classify', ['categorys', 'tags'])
+    ...mapGetters('classify', ['categorysInfo', 'tagsInfo'])
   },
   data() {
     return {
+      tags: [],
       article: {
         title: '',
         cover: '',
         dec: '',
         isSecret: false,
         content: '',
-        category_id: '',
-        tags: []
+        category_id: ''
       }
     }
   },
   async created() {
-    try {
-      const articleId = this.$route.params.articleId
-      if (articleId) {
-        await this._getArticleInfoById(articleId)
-        console.log(this.articleData)
-        this.article = this.articleData.articleInfo
-        this.article.tags = []
-        this.articleData.tags.map(item => {
-          this.article.tags.push(item.tag_id)
-        })
+    this.getTags()
+    this.getCategory()
+    const articleId = this.$route.params.articleId
+    if (articleId) {
+      await this._getArticleInfoById(articleId)
+      this.article = this.articleData.articleInfo
+      this.tags = []
+      for (let index = 0; index < this.articleData.tags.length; index++) {
+        const item = this.articleData.tags[index]
+        this.tags.push(item.tag_id)
       }
-      await this._getUploadToken()
-      this.getTags()
-      this.getCategory()
-    } catch (error) {
-      console.log(error)
     }
+    await this._getUploadToken()
   },
   methods: {
     ...mapActions(['getUploadToken']),
@@ -134,7 +130,7 @@ export default {
         isSecret: this.article.isSecret ? '1' : '0',
         content: this.article.content,
         category_id: this.article.category_id,
-        tags: JSON.stringify(this.article.tags),
+        tags: JSON.stringify(this.tags),
         htmlContent: html
       }
       return params

@@ -6,7 +6,7 @@
       <div class="content left">
         <div class="title">最新文章</div>
         <div class="items">
-          <div class="item" v-for="article in articleListInfo.list" :key="article.id">
+          <div class="item" v-for="article in server_articleListInfo.list" :key="article.id">
             <div class="item-title">{{article.title}}</div>
             <div class="item-time">
               <i class="iconfont icon-calendar"></i>
@@ -87,10 +87,10 @@ export default {
   },
   computed: {
     ...mapGetters(['staticleInfo']),
-    ...mapGetters('article', ['articleListInfo'])
+    ...mapGetters('article', ['server_articleListInfo'])
   },
   async created() {
-    await this._getArticles()
+    await this._getArticlesForServer()
     await this._getHomeStaticle()
     this.list[0].middleMessage = this.staticleInfo.publish_count
     this.list[1].middleMessage = this.staticleInfo.drafts_count
@@ -100,14 +100,14 @@ export default {
   },
   methods: {
     ...mapActions(['getHomeStatistics']),
-    ...mapActions('article', ['getArticles']),
-    _getArticles() {
+    ...mapActions('article', ['getArticlesForServer']),
+    _getArticlesForServer() {
       const params = {
         status: 2,
         page: 1,
         pageSize: 10
       }
-      return this.getArticles(params)
+      return this.getArticlesForServer(params)
     },
     _getHomeStaticle() {
       return this.getHomeStatistics()

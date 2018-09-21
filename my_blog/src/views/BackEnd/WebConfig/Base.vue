@@ -105,6 +105,11 @@ export default {
       console.log(res, file)
       // this.article.cover = URL.createObjectURL(file.raw)
       this.base.avatar = res.url
+      this.$notify({
+        title: '成功',
+        message: '上传成功',
+        type: 'success'
+      })
     },
     _beforeAvatarUpload(file) {
       console.log(file)
