@@ -1,8 +1,5 @@
-// common
-export const IS_BACKEND = 'common/IS_BACLEND'
-
 // auth
-export const SET_USERINFO = 'SET_USERINFO'
+export const SET_USERINFO = 'auth/SET_USERINFO'
 
 //article
 export const SET_WEB_ARTICLE_LIST_INFO = 'article/SET_WEB_ARTICLE_LIST_INFO'
@@ -24,3 +21,4 @@ export const SET_FRIENDTYPE = 'web_config/SET_FRIENDTYPE'
 //common
 export const SET_UPLOADTOKEN = 'common/SET_UPLOADTOKEN'
 export const SET_STATISTICSINFO = 'common/SET_STATISTICSINFO'
+export const IS_BACKEND = 'common/IS_BACLEND'

@@ -5,12 +5,13 @@ import common from './modules/common'
 import article from './modules/article'
 import classify from './modules/classify'
 import webConfig from './modules/web_config'
+import auth from './modules/auth'
 // import actions from './actions'
 // import mutations from './mutations'
 
 Vue.use(Vuex)
 
-const modules = { common, article, classify, webConfig }
+const modules = { common, article, classify, webConfig, auth }
 
 const store = new Vuex.Store({
   modules,
@@ -24,7 +25,8 @@ if (module.hot) {
       './modules/common',
       './modules/article',
       './modules/classify',
-      './modules/web_config'
+      './modules/web_config',
+      './modules/auth'
     ],
     () => {
       store.hotUpdate({
@@ -32,7 +34,8 @@ if (module.hot) {
           common: require('./modules/common').default,
           article: require('./modules/article').default,
           classify: require('./modules/classify').default,
-          webConfig: require('./modules/web_config').default
+          webConfig: require('./modules/web_config').default,
+          auth: require('./modules/auth').default
         }
       })
     }

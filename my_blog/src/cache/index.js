@@ -12,17 +12,17 @@ class CacheClass {
 
   get(key) {
     this.hasKey(key)
-    return this.storage.get(key)
+    return this.storage.get(KEYS[key])
   }
 
   set(key, value, exp) {
     this.hasKey(key)
-    this.storage.set(key, value, exp ? { exp } : null)
+    this.storage.set(KEYS[key], value, exp ? { exp } : null)
   }
 
   delete(key) {
     this.hasKey(key)
-    this.storage.delete(key)
+    this.storage.delete(KEYS[key])
   }
 
   hasKey(key) {

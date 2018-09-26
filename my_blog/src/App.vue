@@ -2,7 +2,7 @@
   <div id="app">
     <div class="frontend-warp" v-if="!isBackEnd">
       <headerLayout></headerLayout>
-      <router-view/>
+      <router-view />
       <footerLayout></footerLayout>
     </div>
     <div class="backend-warp" v-else>
@@ -11,6 +11,8 @@
     </div>
     <rightNav v-if="!isBackEnd"></rightNav>
     <toTop :show="showScrollToTop"></toTop>
+    <!-- <login></login> -->
+    <login v-if="!isLogin"></login>
   </div>
 </template>
 <script>
@@ -19,6 +21,7 @@ import footerLayout from '@/components/layout/footer'
 import rightNav from '@/components/right-nav'
 import toTop from '@/components/to-top'
 import leftMenu from '@/components/left-menu/menu'
+import login from '@/components/auth/login'
 export default {
   name: 'app',
   components: {
@@ -26,10 +29,12 @@ export default {
     footerLayout,
     rightNav,
     toTop,
-    leftMenu
+    leftMenu,
+    login
   },
   computed: {
-    ...mapGetters(['isBackEnd'])
+    ...mapGetters(['isBackEnd']),
+    ...mapGetters('auth', ['isLogin'])
   },
   data() {
     return {

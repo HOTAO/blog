@@ -5,7 +5,7 @@ export default {
     return request.get('/getArticlesForWeb', { params })
   },
   getArticlesForServer(params) {
-    return request.get('/getArticlesForServer', { params })
+    return request.get('/verify/getArticlesForServer', { params })
   },
   getArticleByTag(tid) {
     return request.get(`/getArticleByTag/${tid}`)

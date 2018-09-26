@@ -5,6 +5,6 @@ export default {
     return request.get('/getUploadToken')
   },
   getHomeStatistics() {
-    return request.get('/getHomeStatistics')
+    return request.get('/verify/getHomeStatistics')
   }
 }
