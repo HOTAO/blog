@@ -6,5 +6,8 @@ export default {
   },
   getHomeStatistics() {
     return request.get('/verify/getHomeStatistics')
+  },
+  getSysLog() {
+    return request.get('/verify/getSysLog')
   }
 }

@@ -4,13 +4,15 @@ import api from '../../api/index'
 const state = {
   isBackEnd: false,
   uploadToken: {},
-  staticleInfo: {}
+  staticleInfo: {},
+  syslogInfo: {}
 }
 
 const getters = {
   isBackEnd: state => state.isBackEnd,
   uploadToken: state => state.uploadToken,
-  staticleInfo: state => state.staticleInfo
+  staticleInfo: state => state.staticleInfo,
+  syslogInfo: state => state.syslogInfo
 }
 
 const mutations = {
@@ -25,6 +27,10 @@ const mutations = {
   [type.SET_STATISTICSINFO](state, data) {
     console.log(data)
     state.staticleInfo = data
+  },
+  [type.SET_SYSLOG](state, data) {
+    console.log(data)
+    state.syslogInfo = data
   }
 }
 
@@ -40,6 +46,11 @@ const actions = {
     const result = await api.getHomeStatistics()
     store.commit(type.SET_STATISTICSINFO, result)
     console.log(result)
+    return result
+  },
+  async getSysLog(store, params) {
+    const result = await api.getSysLog(params)
+    store.commit(type.SET_SYSLOG, result)
     return result
   }
 }

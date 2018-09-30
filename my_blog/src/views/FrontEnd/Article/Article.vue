@@ -13,18 +13,21 @@
       <div class="article-dec">{{ articleData.articleInfo.dec }}</div>
       <mdPreview v-if="articleData.articleInfo" :content="articleData.articleInfo.html_content"></mdPreview>
       <p v-else>这篇文章因为某些原因，已下架了</p>
+      <comments></comments>
     </div>
   </div>
 </template>
 <script>
 import mdPreview from '@/components/md-preview'
+import comments from '@/components/comments'
 export default {
   name: 'articles',
   computed: {
     ...mapGetters('article', ['articleData'])
   },
   components: {
-    mdPreview
+    mdPreview,
+    comments
   },
   data() {
     return {}

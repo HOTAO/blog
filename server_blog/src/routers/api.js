@@ -10,6 +10,7 @@ const webConfigController = require('../controllers/web-config')
 const qiniuController = require('../controllers/qiniu')
 const staticController = require('../controllers/static')
 const adminController = require('../controllers/admin')
+const sysLogController = require('../controllers/sys-log')
 // const ar = router
 // [1,2,3,4].map(item => {
 //   ar.get(`/get${item}`,)
@@ -18,6 +19,9 @@ const adminController = require('../controllers/admin')
 //     .patch(`/update${item}/:id`)
 // })
 const routers = router
+
+  .get('/verify/getSysLog', sysLogController.getSysLog)
+
   .post('/login', adminController.login)
 
   .get('/verify/getHomeStatistics', staticController.getHomeStatistics)

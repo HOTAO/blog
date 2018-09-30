@@ -1,5 +1,6 @@
 // auth
 export const SET_USERINFO = 'auth/SET_USERINFO'
+export const LOGIN_OUT = 'auth/LOGIN_OUT'
 
 //article
 export const SET_WEB_ARTICLE_LIST_INFO = 'article/SET_WEB_ARTICLE_LIST_INFO'
@@ -21,4 +22,5 @@ export const SET_FRIENDTYPE = 'web_config/SET_FRIENDTYPE'
 //common
 export const SET_UPLOADTOKEN = 'common/SET_UPLOADTOKEN'
 export const SET_STATISTICSINFO = 'common/SET_STATISTICSINFO'
+export const SET_SYSLOG = 'common/SET_SYSLOG'
 export const IS_BACKEND = 'common/IS_BACLEND'

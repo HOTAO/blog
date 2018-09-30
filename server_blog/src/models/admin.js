@@ -3,8 +3,9 @@ const dbUtils = require('../util/db')
 const table_name = 'user'
 
 const admin = {
-  async isHasUserByUserName(name) {
-    const _sql = `select user_id from ${table_name} where username = "${name}" limit 1;`
+  async isHasUserByUserName(username) {
+    const _sql = `select user_id from ${table_name} where username = "${username}" limit 1;`
+    console.log(_sql)
     const result = await dbUtils.query(_sql)
     return result.length > 0
   },

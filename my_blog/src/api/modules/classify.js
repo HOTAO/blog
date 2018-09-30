@@ -5,25 +5,25 @@ export default {
     return request.get('/getCategory', { params })
   },
   insertCategory(data) {
-    return request.post('/insertCategory', data)
+    return request.post('/verify/insertCategory', data)
   },
   updateCategory(cid, options) {
-    return request.patch(`/updateCategory/${cid}`, options)
+    return request.patch(`/verify/updateCategory/${cid}`, options)
   },
   deleteCategory(cid) {
-    return request.delete(`/deleteCategory/${cid}`)
+    return request.delete(`/verify/deleteCategory/${cid}`)
   },
 
   getTags(params) {
     return request.get('/getTags', { params })
   },
   insertTag(data) {
-    return request.post('/insertTag', data)
+    return request.post('/verify/insertTag', data)
   },
   updateTag(tid, options) {
-    return request.patch(`/updateTag/${tid}`, options)
+    return request.patch(`/verify/updateTag/${tid}`, options)
   },
   deleteTag(tid) {
-    return request.delete(`/deleteTag/${tid}`)
+    return request.delete(`/verify/deleteTag/${tid}`)
   }
 }

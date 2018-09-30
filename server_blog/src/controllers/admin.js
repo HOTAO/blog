@@ -5,8 +5,8 @@ const sysLog = require('../models/sys-log')
 const admin = {
   async login(ctx) {
     const post_data = ctx.request.body
-    const result = await db_admin.isHasUserByUserName(post_data.name)
-    if (!result) {
+    const isHas = await db_admin.isHasUserByUserName(post_data.username)
+    if (!isHas) {
       ctx.response.status = 400
       ctx.response.body = { error: '当前用户不存在' }
       return

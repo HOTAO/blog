@@ -28,6 +28,11 @@ const category = {
     const _sql = `select count(*) as total_count from ${table_name} ${query}`
     const result = await dbUtils.query(_sql)
     return result
+  },
+  async getCateGoryNameById(id) {
+    const _sql = `select name from ${table_name} where id = ${id}`
+    const result = await dbUtils.query(_sql)
+    return result
   }
 }
 

@@ -18,12 +18,12 @@
       <div class="content right">
         <div class="title">系统日志</div>
         <div class="items">
-          <div class="item" v-for="article in articles" :key="article">
+          <div class="item" v-for="log in syslogInfo.list" :key="log.id">
             <div class="item-log">
               <div class="item-address">
-                ip地址：127.0.0.1
+                ip地址：{{log.ip}}
               </div>
-              2018-08-31 => 管理员 HoTao新增了文章 《这篇文章屌得一匹》
+              {{log.time | timeFormat('YYYY-MM-DD')}} => {{log.content}}
             </div>
           </div>
         </div>
@@ -86,11 +86,12 @@ export default {
     IconCard
   },
   computed: {
-    ...mapGetters(['staticleInfo']),
+    ...mapGetters(['staticleInfo', 'syslogInfo']),
     ...mapGetters('article', ['server_articleListInfo'])
   },
   async created() {
-    await this._getArticlesForServer()
+    this._getArticlesForServer()
+    this._getSysLog()
     await this._getHomeStaticle()
     this.list[0].middleMessage = this.staticleInfo.publish_count
     this.list[1].middleMessage = this.staticleInfo.drafts_count
@@ -99,8 +100,15 @@ export default {
     this.list[4].middleMessage = this.staticleInfo.tag_count
   },
   methods: {
-    ...mapActions(['getHomeStatistics']),
+    ...mapActions(['getHomeStatistics', 'getSysLog']),
     ...mapActions('article', ['getArticlesForServer']),
+    _getSysLog() {
+      const params = {
+        page: 1,
+        pageSize: 10
+      }
+      return this.getSysLog(params)
+    },
     _getArticlesForServer() {
       const params = {
         status: 2,

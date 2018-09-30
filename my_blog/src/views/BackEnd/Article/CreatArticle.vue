@@ -95,7 +95,7 @@ export default {
     },
     _beforeCoverUpload(file) {
       console.log(file)
-      const isJPG = file.type === 'image/jpeg'
+      const isJPG = file.type === 'image/jpeg' || 'png'
       const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
@@ -147,6 +147,7 @@ export default {
             message: '文章更新成功',
             type: 'success'
           })
+          this.$router.push({ name: 'BackEndHome' })
         })
         .catch(err => {
           console.log(err)
@@ -168,6 +169,7 @@ export default {
             message: '文章发表成功',
             type: 'success'
           })
+          this.$router.push({ name: 'BackEndHome' })
           console.log(res)
         })
         .catch(err => {

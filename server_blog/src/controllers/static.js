@@ -1,7 +1,6 @@
 const db_article = require('../models/article')
 const db_category = require('../models/category')
 const db_tag = require('../models/tag')
-const sysLog = require('../models/sys-log')
 
 const MyResume = {
   async getHomeStatistics(ctx) {
@@ -12,10 +11,6 @@ const MyResume = {
     const tag_count = await db_tag.getTagsCount()
     // TODO 评论功能
     // const comments_count = await db_article.getArticlesCount({ status: 2 })
-    console.log('global.userInfo', global.userInfo)
-    await sysLog.insertSysLog({
-      content: `管理员${global.userInfo.username}访问了首页数据`
-    })
 
     ctx.body = {
       publish_count: publish_count[0].total_count,

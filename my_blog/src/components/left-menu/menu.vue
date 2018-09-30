@@ -58,7 +58,7 @@
             <span slot="title">其他</span>
           </template>
           <el-menu-item :route="$route.path" index="0" @click="signOut">
-            <i class="iconfont icon-signout"></i>退出</el-menu-item>
+            <i class="iconfont icon-signout" @click="_loginOut"></i>退出</el-menu-item>
         </el-submenu>
       </el-menu>
       <div class="collapse-wrap" :class="{'collapse-open':collapseMenu,'collapse-close':!collapseMenu}" @click="toggleCollapse">
@@ -92,6 +92,7 @@ export default {
     // ...mapGetters(['screen'])
   },
   methods: {
+    ...mapActions('auth', ['loginOut']),
     signOut() {
       this.$confirm('是否退出', '提示', {
         confirmButtonText: '确定',
@@ -101,8 +102,12 @@ export default {
       })
         .then(() => {
           // this.adminSignOut()
+          this._loginOut()
         })
         .catch(() => {})
+    },
+    _loginOut() {
+      this.loginOut()
     },
     toggleCollapse() {
       this.collapseMenu = !this.collapseMenu

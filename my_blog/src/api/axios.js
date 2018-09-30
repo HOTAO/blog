@@ -23,7 +23,7 @@ axios.interceptors.request.use(
       config.method === 'patch'
     ) {
       config.transformRequest = [
-        (data) => {
+        data => {
           return Qs.stringify(data)
         }
       ]

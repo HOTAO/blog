@@ -2,6 +2,7 @@ const db_article = require('../models/article')
 const db_tag = require('../models/tag')
 const db_article_tag_mapper = require('../models/article-tag-mapper')
 const md5 = require('../util/md5')
+const sysLog = require('../models/sys-log')
 
 const articleController = {
   /**
@@ -125,6 +126,9 @@ const articleController = {
         tag_id: tagId
       })
     })
+    await sysLog.insertSysLog(
+      `管理员${global.userInfo.username}添加了新文章《${post_data.title}》`
+    )
 
     const result = { status: 200, message: '添加成功' }
     ctx.status = result.status
@@ -183,6 +187,9 @@ const articleController = {
         tag_id: tagId
       })
     })
+    await sysLog.insertSysLog(
+      `管理员${global.userInfo.username}修改了文章《${post_data.title}》`
+    )
 
     const result = { status: 200, message: '修改成功' }
     ctx.status = result.status
@@ -192,12 +199,28 @@ const articleController = {
     const post_data = ctx.request.body
     const article_id = ctx.params.id
     await db_article.updateArticleByStatus(article_id, post_data)
-    const result = { status: 200, message: '删除成功' }
+    const text =
+      post_data === 2 ? '已发布' : post_data === 1 ? '未发布' : '已删除'
+    await sysLog.insertSysLog(
+      `管理员${global.userInfo.username}修改了文章《${
+        post_data.title
+      }》的状态为${text}`
+    )
+    const result = { status: 200, message: '修改成功' }
     ctx.status = result.status
     ctx.body = result
   },
   async deleteArticleById(ctx) {
+    const result = await db_article.getArticleInfoById(article_id)
     await db_article.deleteArticleById(ctx.query.id)
+    await sysLog.insertSysLog(
+      `管理员${global.userInfo.username}删除了文章《${
+        result.articleInfo[0].title
+      }》`
+    )
+    const result = { status: 200, message: '删除成功' }
+    ctx.status = result.status
+    ctx.body = result
   }
 }
 
