@@ -11,6 +11,7 @@ const qiniuController = require('../controllers/qiniu')
 const staticController = require('../controllers/static')
 const adminController = require('../controllers/admin')
 const sysLogController = require('../controllers/sys-log')
+const commentController = require('../controllers/comment')
 // const ar = router
 // [1,2,3,4].map(item => {
 //   ar.get(`/get${item}`,)
@@ -19,6 +20,11 @@ const sysLogController = require('../controllers/sys-log')
 //     .patch(`/update${item}/:id`)
 // })
 const routers = router
+  .get('/getAllComments', commentController.getAllComments)
+  .get('/getComments', commentController.getComments)
+  .post('/verify/insertComment', commentController.insertComment)
+  .delete('/verify/deleteComment/:id', commentController.deleteCommentById)
+  .patch('/verify/updateComment/:id', commentController.updateComment)
 
   .get('/verify/getSysLog', sysLogController.getSysLog)
 

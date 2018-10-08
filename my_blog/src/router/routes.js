@@ -100,6 +100,13 @@ const BackEndRoutes = [
       import(/* webpackChunkName: "Tags" */ '../views/BackEnd/Classify/Tags.vue')
   },
   {
+    path: '/BackEnd/Comments',
+    name: 'BackEndComments',
+    meta: { isBackEnd: true },
+    component: () =>
+      import(/* webpackChunkName: "Comments" */ '../views/BackEnd/Comments/index.vue')
+  },
+  {
     path: '/BackEnd/WebConfig/Base',
     name: 'Base',
     meta: { isBackEnd: true },

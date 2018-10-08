@@ -23,10 +23,40 @@ const friends = {
     const result = await dbUtil.updateData(table_name, options, id)
     return result
   },
+  async getCommentsByOptions(options) {
+    let query = options ? dbMethods.andWhere(options) : ''
+    const _sql = `select * from ${table_name} ${query}`
+    const result = await dbUtil.query(_sql)
+    return result
+  },
   async getComments({ page = 1, pageSize = 10 } = {}) {
     let query = arguments[0] ? dbMethods.andWhere(arguments[0]) : ''
-    const _sql = `select * from ${table_name} ${query} limit ${(page - 1) *
-      pageSize}, ${pageSize}` 
+    let query1 = query + ' and parent_id = 0 and status = 0'
+    const _sql1 = `select * from ${table_name} ${query1} limit ${(page - 1) *
+      pageSize}, ${pageSize}`
+    const result = await dbUtil.query(_sql1)
+    const len = result.length
+    for (let index = 0; index < len; index++) {
+      let item = result[index]
+      let query2 = query + ` and parent_id = ${item.id} and status = 0`
+      const _sql2 = `select * from ${table_name} ${query2} limit ${(page - 1) *
+        pageSize}, ${pageSize}`
+      const children = await dbUtil.query(_sql2)
+      item.children = children
+    }
+    return result
+  },
+  async getAllComments({ page = 1, pageSize = 10 } = {}) {
+    let query = arguments[0] ? dbMethods.andWhere(arguments[0]) : ''
+    const _sql = `select c.id,c.create_time,c.is_author,c.name,c.status,c.parent_id,c.reply_id,c.email,c.content,c.article_id,a.title from ${table_name} c left join article a on c.article_id = a.id ${query}  order by c.create_time desc limit ${(page -
+      1) *
+      pageSize}, ${pageSize}`
+    const result = await dbUtil.query(_sql)
+    return result
+  },
+  async getCommentsCounts({ articli_id = 0 } = {}) {
+    let query = dbMethods.andWhere(arguments[0])
+    const _sql = `select count(*) as total_count from ${table_name} ${query}`
     const result = await dbUtil.query(_sql)
     return result
   }

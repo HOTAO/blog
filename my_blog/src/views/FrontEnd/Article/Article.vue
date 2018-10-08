@@ -13,7 +13,7 @@
       <div class="article-dec">{{ articleData.articleInfo.dec }}</div>
       <mdPreview v-if="articleData.articleInfo" :content="articleData.articleInfo.html_content"></mdPreview>
       <p v-else>这篇文章因为某些原因，已下架了</p>
-      <comments></comments>
+      <comments :articleId="$route.params.id"></comments>
     </div>
   </div>
 </template>
@@ -23,7 +23,8 @@ import comments from '@/components/comments'
 export default {
   name: 'articles',
   computed: {
-    ...mapGetters('article', ['articleData'])
+    ...mapGetters('article', ['articleData']),
+    ...mapActions('comments', ['insertComment'])
   },
   components: {
     mdPreview,

@@ -34,7 +34,7 @@
             <span slot="title">标签</span>
           </el-menu-item>
         </el-submenu>
-        <el-menu-item index="/admin/comments">
+        <el-menu-item index="/BackEnd/Comments">
           <i class="iconfont icon-comments"></i>
           <span slot="title">评论</span>
         </el-menu-item>

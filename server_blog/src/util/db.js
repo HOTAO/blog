@@ -27,6 +27,7 @@ const db = {
           connection.query(sql, values, (err, rows) => {
             if (err) {
               reject(err)
+              console.log('error:', err)
             } else {
               resolve(rows)
               console.log('sql语句执行完毕，退出请按ctrl+c')

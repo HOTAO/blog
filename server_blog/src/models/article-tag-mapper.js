@@ -30,7 +30,7 @@ const articleTagMapper = {
     return result
   },
 
-  async getCount({ status = 1 } = {}){
+  async getCount({ status = 1 } = {}) {
     let query = dbMethod.andWhere(arguments[0])
     const _sql = `select count(*) as total_count from ${tableNmae} ${query}`
     const result = await dbUtils.query(_sql)
@@ -47,6 +47,7 @@ const articleTagMapper = {
   async getTagsByArticleId(aid) {
     const _sql2 = `SELECT tag_id, t.name as tag_name  from ${tableNmae} atm left join tag t on atm.tag_id = t.id where atm.article_id = '${aid}'`
     tags = await dbUtils.query(_sql2)
+    console.log(tags)
     return tags
   },
 
