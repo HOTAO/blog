@@ -12,7 +12,7 @@
     <rightNav v-if="!isBackEnd"></rightNav>
     <toTop :show="showScrollToTop"></toTop>
     <!-- <login></login> -->
-    <login v-if="!isLogin"></login>
+    <login v-if="!isLogin&&isBackEnd"></login>
   </div>
 </template>
 <script>

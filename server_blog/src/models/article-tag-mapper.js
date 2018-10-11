@@ -25,7 +25,6 @@ const articleTagMapper = {
    */
   async getArticlesByTagId(tid) {
     const _sql = `select article_id from ${tableNmae} where tag_id = '${tid}'`
-    console.log(_sql)
     const result = await dbUtils.query(_sql)
     return result
   },
@@ -47,7 +46,6 @@ const articleTagMapper = {
   async getTagsByArticleId(aid) {
     const _sql2 = `SELECT tag_id, t.name as tag_name  from ${tableNmae} atm left join tag t on atm.tag_id = t.id where atm.article_id = '${aid}'`
     tags = await dbUtils.query(_sql2)
-    console.log(tags)
     return tags
   },
 

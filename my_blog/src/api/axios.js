@@ -3,6 +3,7 @@ import Qs from 'qs'
 import cache from '../cache/index.js'
 
 const Api = 'http://localhost:4000/api'
+// const Api = 'http://www.hotao.work:4000/api'
 // const Api =
 //   process.env.NODE_ENV === 'production'
 //     ? 'http://192.168.1.187:8002/api'

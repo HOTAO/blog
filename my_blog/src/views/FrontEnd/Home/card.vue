@@ -25,7 +25,7 @@
             <span>{{tag.tag_name}}</span>
           </div>
         </div>
-        <span class="acticle-read">阅读全文 >></span>
+        <span class="acticle-read" @click="$router.push({name:'Article',params:{id:item.article.id}})">阅读全文 >></span>
       </el-card>
     </div>
   </div>
@@ -63,6 +63,7 @@ export default {
           hover-underline-animation(0, 0, 2px, white, 0, 0, 0, 100%)
     img
       width 100%
+      filter brightness(0.7)
   .article-info
     display flex
     align-items center

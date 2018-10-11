@@ -145,7 +145,6 @@ const articleController = {
     const now = +new Date()
     const post_data = ctx.request.body
     const article_id = ctx.params.id
-    console.log(ctx.params.id)
     const article = {
       title: post_data.title,
       cover: post_data.cover,

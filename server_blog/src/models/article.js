@@ -40,7 +40,7 @@ const article = {
     delete query.status
     let result = []
     const _sql = `
-    select a.id as id, title, cover, pageview, a.status as status, isSecret, category_id, c.name as categoryName, a.create_time as createTime, a.update_time as updateTime, a.publish_time as publishTime, a.delete_time as deleteTime, content, html_content, a.dec from ${table_name} a left join category c on a.category_id = c.id  ${query} limit ${(page -
+    select a.id as id, title, cover, pageview, a.status as status, isSecret, category_id, c.name as categoryName, a.create_time as createTime, a.update_time as updateTime, a.publish_time as publishTime, a.delete_time as deleteTime, content, html_content, a.dec from ${table_name} a left join category c on a.category_id = c.id  ${query}  order by a.create_time desc limit ${(page -
       1) *
       pageSize}, ${pageSize} `
     result = await dbUtils.query(_sql)
@@ -73,7 +73,7 @@ const article = {
     query = query.substring(0, query.length - 1)
     let result = []
     const _sql = `
-    select a.id as id, title, cover, pageview, a.status as status, isSecret, category_id, c.name as categoryName, a.create_time as createTime, a.update_time as updateTime, a.publish_time as publishTime, a.delete_time as deleteTime, content, html_content, a.dec from ${table_name} a left join category c on a.category_id = c.id  where a.id in (${query}) and a.status = '2' limit ${(page -
+    select a.id as id, title, cover, pageview, a.status as status, isSecret, category_id, c.name as categoryName, a.create_time as createTime, a.update_time as updateTime, a.publish_time as publishTime, a.delete_time as deleteTime, content, html_content, a.dec from ${table_name} a left join category c on a.category_id = c.id  where a.id in (${query}) and a.status = '2' order by a.create_time desc limit ${(page -
       1) *
       pageSize}, ${pageSize} `
     result = await dbUtils.query(_sql)
@@ -93,6 +93,9 @@ const article = {
     // const _sql2 = `SELECT tag_id, t.name as tag_name  from article_tag_mapper atm left join tag t on atm.tag_id = t.id where atm.article_id = '${aid}'`
     // tags = await dbUtils.query(_sql2)
     articleInfo = await dbUtils.query(_sql1)
+    articleInfo[0].pageview += 1
+    let options = { pageview: articleInfo[0].pageview }
+    await dbUtils.updateData(table_name, options, aid)
     return { articleInfo }
   },
   async updateArticleById(aid, options) {
