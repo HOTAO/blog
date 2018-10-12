@@ -12,6 +12,7 @@ const article = {
    */
   async insertArticle(model) {
     let result = await dbUtils.insertData('article', model)
+    console.log('result', result)
     return result
   },
 

@@ -100,6 +100,7 @@ const articleController = {
       status: 2
     }
     // post_data.create_time = parseInt(now / 1000)
+    console.log(article)
     await db_article.insertArticle(article)
 
     const tags = JSON.parse(post_data.tags)

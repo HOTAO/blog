@@ -2,12 +2,13 @@
   <div id="creatArticle">
     <div class="title">编辑文章
       <div class="actions">
-        <el-button @click="_publishActicle" type="primary">发布</el-button>
-        <el-button @click="_updateActicle" type="primary">更新</el-button>
+        <p>已保存至<span>草稿箱</span></p>
+        <el-button v-if="!articleId" @click="_publishActicle" type="primary">发布</el-button>
+        <el-button v-else @click="_updateActicle" type="primary">更新</el-button>
       </div>
     </div>
     <div class="article-edit">
-      <mavon-editor class="editor" v-model="article.content" @htmlCode="_htmlCode" />
+      <mavon-editor class="editor" @change="_updateActicleForDrafts" v-model="article.content" @htmlCode="_htmlCode" />
       <div class="article-info">
         <div class="upload">
           <el-upload class="cover-uploader" action="//up-z2.qiniup.com" :data="uploadToken" :show-file-list="false" :on-success="_handleCoverSuccess" :on-error="_handleCoverError" :before-upload="_beforeCoverUpload">
@@ -59,15 +60,17 @@ export default {
         isSecret: false,
         content: '',
         category_id: ''
-      }
+      },
+      articleId: '',
+      draftInrerval: ''
     }
   },
   async created() {
     this.getTags()
     this.getCategory()
-    const articleId = this.$route.params.articleId
-    if (articleId) {
-      await this._getArticleInfoById(articleId)
+    this.articleId = this.$route.params.articleId
+    if (this.articleId) {
+      await this._getArticleInfoById(this.articleId)
       this.article = this.articleData.articleInfo
       this.tags = []
       for (let index = 0; index < this.articleData.tags.length; index++) {
@@ -135,10 +138,33 @@ export default {
       }
       return params
     },
+    // TODO 存草稿
+    _updateActicleForDrafts(value) {
+      if (!value) return
+      if (this.draftInrerval) clearInterval(this.draftInrerval)
+      let a = 3
+      this.draftInrerval = setInterval(() => {
+        a--
+        if (a <= 0) {
+          clearInterval(this.draftInrerval)
+          const params = this._getParams()
+          this.insertArticle(params)
+            .then(() => {})
+            .catch(err => {
+              this.$notify({
+                title: '错误',
+                message: '添加文章错误',
+                type: 'error'
+              })
+              console.log(err)
+            })
+        }
+      }, 1000)
+    },
     _updateActicle() {
       const params = this._getParams()
       console.log(params)
-      params.aid = this.$route.params.articleId
+      params.aid = this.articleId
       this.updateArticleById(params)
         .then(res => {
           console.log(res)

@@ -1,6 +1,8 @@
 import axios from 'axios'
 import Qs from 'qs'
 import cache from '../cache/index.js'
+import store from '../vuex/store'
+import * as type from '../vuex/types'
 
 const Api = 'http://localhost:4000/api'
 // const Api = 'http://www.hotao.work:4000/api'
@@ -41,7 +43,9 @@ axios.interceptors.response.use(
     return response.data
   },
   error => {
-    console.log(error.response)
+    if (error.response.status === 401) {
+      store.commit(type.LOGIN_OUT)
+    }
     return Promise.reject(error.response)
   }
 )
