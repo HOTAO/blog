@@ -30,7 +30,9 @@ export default {
   width 100%
   .cards
     display flex
-    justify-content space-between
+    flex-direction row
+    flex-wrap wrap
+    align-items flex-start
     .card
       display flex
       justify-content space-between
@@ -38,8 +40,18 @@ export default {
       height 100px
       border-radius 5px
       cursor pointer
-      width: calc(20% - 10px)
+      width calc(20% - 10px)
+      margin 5px
       padding 10px 20px
+      @media (max-width: 1450px)
+        width calc(25% - 10px)
+      @media (max-width: 1228px)
+        width calc(33.33% - 10px)
+      @media (max-width: 990px)
+        width calc(50% - 10px)
+      @media (max-width: 759px)
+        width calc(100% - 10px)
+        height 90px
     .card-info
       text-align right
       color white

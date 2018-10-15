@@ -1,7 +1,9 @@
 <template>
   <div id="articles">
     <div class="container preview">
-      <div class="title">{{articleData.articleInfo.title}}</div>
+      <div class="title">
+        <p>{{articleData.articleInfo.title}}</p>
+      </div>
       <div class="article-info">
         <i class="iconfont icon-calendar"></i>
         <span>发表于 {{articleData.articleInfo.create_time | timeFormat('LL')}}</span>
@@ -46,14 +48,19 @@ export default {
 </script>
 <style lang="stylus" scoped>
 #articles
-  padding 40px 0
+  padding 40px 10px
   .title
+    display flex
+    justify-content center
     font-size 26px
     font-weight bold
-    text-align center
+    p
+      text-align left
   .preview
     padding 30px 20px
     box-shadow 0 0 5px 0 rgba($color-main, 0.1)
+    @media (max-width: 768px)
+      padding 30px 15px
   .article-info
     display flex
     align-items center
@@ -62,11 +69,12 @@ export default {
     margin 20px 0
     color $color-mid-grey
     text-align center
+    @media (max-width: 768px)
+      font-size 12px
     span
       margin-right 10px
   .article-dec
     font-size 14px
     color $color-light-grey
     margin-bottom 20px
-    text-align center
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div id="comments">
+    <div class="title">留下你的👣（足迹）吧~</div>
     <el-form :model="comment" size="mini" ref="commentForm" label-width="70px" class="demo-dynamic">
       <el-form-item size="mini" label="称呼：" prop="name" :rules="[{ required: true, message: '请输入称呼',trigger: 'blur' }]">
         <el-input v-model="comment.name" placeholder="称呼（必填）"></el-input>
@@ -127,6 +128,10 @@ export default {
 <style lang="stylus" scoped>
 #comments
   padding 40px 0
+  .title
+    border-top 1px solid $color-main
+    padding 20px 0
+    font-style italic
   .actions
     display flex
     justify-content space-between

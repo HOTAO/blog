@@ -39,6 +39,8 @@ export default {
     font-size 22px
     color $color-main
     cursor pointer
+    @media (max-width 768px)
+      font-size 18px
   .article-info
     // display flex
     // align-items center
@@ -46,6 +48,8 @@ export default {
     font-size 14px
     margin 20px 0
     color $color-mid-grey
+    @media (max-width 768px)
+      font-size 12px
     .article-category
       cursor pointer
       border-bottom 1px solid $color-main
@@ -56,6 +60,8 @@ export default {
     color $color-mid-grey
     border-left 2px solid $color-mid-grey
     padding-left 5px
+    @media (max-width 768px)
+      font-size 14px
   .acticle-tags
     display flex
     flex-wrap wrap

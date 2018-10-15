@@ -23,7 +23,8 @@ export const SET_FRIENDTYPE = 'web_config/SET_FRIENDTYPE'
 export const SET_UPLOADTOKEN = 'common/SET_UPLOADTOKEN'
 export const SET_STATISTICSINFO = 'common/SET_STATISTICSINFO'
 export const SET_SYSLOG = 'common/SET_SYSLOG'
-export const IS_BACKEND = 'common/IS_BACLEND'
+export const IS_BACKEND = 'common/IS_BACKEND'
+export const SET_SCREEN = 'common/SET_SCREEN'
 
 // comments
 export const SET_COMMENTS_INFO = 'comments/SET_COMMENTS_INFO'

@@ -49,6 +49,7 @@ export default {
   .article
     margin-bottom 20px
   .article-cover
+    position relative
     display flex
     justify-content center
     align-items center
@@ -57,6 +58,7 @@ export default {
       color white
       font-size 24px
       font-weight bold
+      padding 10px
       span
         hover-underline-animation(0, 0, 2px, white, 0, 0, 0, 0)
         &:hover
@@ -71,6 +73,8 @@ export default {
     font-size 14px
     margin 20px 0
     color $color-mid-grey
+    @media (max-width: 768px)
+      font-size 12px
     .article-category
       cursor pointer
       border-bottom 1px solid $color-main
@@ -106,4 +110,7 @@ export default {
     font-size 14px
     margin-top 20px
     cursor pointer
+  >>>.el-card__body
+    @media (max-width: 768px)
+      padding 20px 10px
 </style>

@@ -219,14 +219,36 @@ export default {
     margin 10px 0 40px
     padding-bottom 20px
     border-bottom 1px solid $color-border
+    @media (max-width: 1324px)
+      margin-bottom 10px
+    .actions
+      display flex
+      justify-content space-between
+      align-items center
+      font-size 14px
+      p
+        margin-right 4px
+        color $color-light-grey
+        span
+          border 1px solid $color-light-grey
+          cursor pointer
+          margin 0 2px
+      button
+        height 30px
+        padding 6px 16px
   .article-edit
     display flex
+    @media (max-width: 1324px)
+      flex-direction: column-reverse
     .editor
       width calc(100% - 310px)
       min-height calc(100vh - 141px)
     .article-info
       width 300px
       margin-left 10px
+      @media(max-width: 1324px)
+        width 100%
+        margin 0 0 10px 0
   .article-info
     .upload
       position relative

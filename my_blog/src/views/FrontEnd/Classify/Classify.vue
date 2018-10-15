@@ -53,6 +53,7 @@ export default {
     display flex
     justify-content center
     margin-bottom 50px
+    flex-wrap wrap
     .item
       font-size 16px
       margin 5px

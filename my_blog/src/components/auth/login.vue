@@ -47,7 +47,7 @@ export default {
               console.log(err)
               this.$notify({
                 title: '错误',
-                message: err.error,
+                message: err.error || err,
                 type: 'error'
               })
             })

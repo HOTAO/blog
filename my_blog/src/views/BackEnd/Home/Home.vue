@@ -14,6 +14,7 @@
             </div>
           </div>
         </div>
+        <p class="more" @click="$router.push({name: 'articleManage'})">更多</p>
       </div>
       <div class="content right">
         <div class="title">系统日志</div>
@@ -27,6 +28,10 @@
             </div>
           </div>
         </div>
+        <p class="more-log">
+          <span>上一页</span>
+          <span>下一页</span>
+        </p>
       </div>
     </div>
   </div>
@@ -133,6 +138,10 @@ export default {
   .contents
     display flex
     font-size 14px
+    @media (max-width: 759px)
+      display block
+      font-size 12px
+      padding 10px
     .content
       flex 1
       border 1px solid $color-border
@@ -148,6 +157,42 @@ export default {
         color $color-light-grey
       .item-log
         line-height 18px
+      .more
+        padding 10px
+        margin-top 10px
+        text-align center
+        font-size 14px
+        @media (max-width: 759px)
+          font-size 12px
+        color #555555
+        background-color #f9f9f9
+        cursor pointer
+        transition all 0.3s
+        &:hover
+          background-color $color-main
+          color $color-white
+      .more-log
+        margin-top 10px
+        text-align center
+        font-size 14px
+        display flex
+        flex-direction row
+        @media (max-width: 759px)
+          font-size 12px
+        > span
+          color #555555
+          background-color #f9f9f9
+          cursor pointer
+          padding 10px
+          flex 1
+          transition all 0.3s
+          &:first-child
+            margin-right 10px
+          &:hover
+            background-color $color-main
+            color $color-white
     .left
       margin-right 20px
+      @media (max-width: 759px)
+        margin-right 0
 </style>

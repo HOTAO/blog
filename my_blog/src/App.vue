@@ -2,14 +2,14 @@
   <div id="app">
     <div class="frontend-warp" v-if="!isBackEnd">
       <headerLayout></headerLayout>
-      <router-view />
+      <router-view class="view-warp" :style="{width: viewWidth}" />
       <footerLayout></footerLayout>
     </div>
     <div class="backend-warp" v-else>
       <leftMenu></leftMenu>
       <router-view class="view-warp" />
     </div>
-    <rightNav v-if="!isBackEnd"></rightNav>
+    <rightNav v-if="!isBackEnd && isPc"></rightNav>
     <toTop :show="showScrollToTop"></toTop>
     <!-- <login></login> -->
     <login v-if="!isLogin&&isBackEnd"></login>
@@ -33,27 +33,56 @@ export default {
     login
   },
   computed: {
-    ...mapGetters(['isBackEnd']),
+    ...mapGetters(['isBackEnd', 'screenInfo']),
     ...mapGetters('auth', ['isLogin'])
+  },
+  watch: {
+    screenInfo(value) {
+      this._setViewWidth()
+      this.isPc = true
+      if (value.width <= 768) {
+        this.isPc = false
+      }
+    }
   },
   data() {
     return {
-      showScrollToTop: false
+      showScrollToTop: false,
+      viewWidth: '1000px',
+      isPc: true
     }
   },
   mounted() {
     document.title = `被发现啦(*´∇｀*)`
-    window.addEventListener('scroll', this.scrollListener)
-    let visProp = this.getHiddenProp()
-    this.evtname = visProp.replace(/[H|h]idden/, '') + 'visibilitychange'
-    document.addEventListener(this.evtname, this.visibilityChange, false)
+    this._updateScreenInfo()
+    window.addEventListener('resize', this._updateScreenInfo)
+    window.addEventListener('scroll', this._scrollListener)
+    let visProp = this._getHiddenProp()
+    this.evtname = visProp.replace(/[H|h]idden/, '') + '_visibilitychange'
+    document.addEventListener(this.evtname, this._visibilityChange, false)
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.scrollListener, false)
-    document.removeEventListener(this.evtname, this.visibilityChange, false)
+    window.removeEventListener('resize', this._updateScreenInfo, false)
+    window.removeEventListener('scroll', this._scrollListener, false)
+    document.removeEventListener(this.evtname, this._visibilityChange, false)
   },
   methods: {
-    scrollListener() {
+    ...mapActions(['setScreenInfo']),
+    _setViewWidth() {
+      let temp = 20
+      // if (this.screenInfo.width > 990) {
+      //   temp = 340
+      // }
+      this.viewWidth = this.screenInfo.width - temp + 'px'
+    },
+    _updateScreenInfo() {
+      console.log(window.outerWidth)
+      this.setScreenInfo({
+        width: document.body.clientWidth,
+        height: document.body.clientHeight
+      })
+    },
+    _scrollListener() {
       let scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop
       if (scrollTop >= 90) {
@@ -62,7 +91,7 @@ export default {
         this.showScrollToTop = false
       }
     },
-    getHiddenProp() {
+    _getHiddenProp() {
       var prefixes = ['webkit', 'moz', 'ms', 'o']
       // if 'hidden' is natively supported just return it
       if ('hidden' in document) {
@@ -77,7 +106,7 @@ export default {
       // otherwise it's not supported
       return null
     },
-    getVisibilityState() {
+    _getVisibilityState() {
       var prefixes = ['webkit', 'moz', 'ms', 'o']
       if ('visibilityState' in document) return 'visibilityState'
       for (var i = 0; i < prefixes.length; i++) {
@@ -88,8 +117,8 @@ export default {
       // otherwise it's not supported
       return null
     },
-    visibilityChange() {
-      switch (document[this.getVisibilityState()]) {
+    _visibilityChange() {
+      switch (document[this._getVisibilityState()]) {
         case 'visible':
           document.title = `被发现啦(*´∇｀*)`
           break
@@ -115,6 +144,8 @@ export default {
   width 100%
   .frontend-warp
     flex 1
+    .view-warp
+      margin auto
   .backend-warp
     display flex
     width 100%
