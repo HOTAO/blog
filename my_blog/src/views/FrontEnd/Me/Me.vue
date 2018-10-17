@@ -58,6 +58,8 @@ export default {
 <style lang="stylus" scoped>
 #Me
   padding 40px 0
+  @media (max-width 768px)
+    padding-top 20px
   .preview
     border 1px solid $color-border
     padding 20px

@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="article-edit">
-      <mavon-editor class="editor" @change="_updateActicleForDrafts" v-model="article.content" @htmlCode="_htmlCode" />
+      <mavon-editor class="editor" ref="md" @imgAdd="_mdImgAdd" @change="_updateActicleForDrafts" v-model="article.content" @htmlCode="_htmlCode" />
       <div class="article-info">
         <div class="upload">
           <el-upload class="cover-uploader" action="//up-z2.qiniup.com" :data="uploadToken" :show-file-list="false" :on-success="_handleCoverSuccess" :on-error="_handleCoverError" :before-upload="_beforeCoverUpload">
@@ -39,9 +39,11 @@
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import marked from 'marked'
+import mdAddImage from '@/plugins/md_add_image'
 
 export default {
   name: 'creatArticle',
+  mixins: [mdAddImage],
   components: {
     mavonEditor
   },
@@ -81,13 +83,16 @@ export default {
     await this._getUploadToken()
   },
   methods: {
-    ...mapActions(['getUploadToken']),
+    ...mapActions(['getUploadToken', 'uploadToQiniu']),
     ...mapActions('article', [
       'insertArticle',
       'getArticleInfoById',
       'updateArticleById'
     ]),
     ...mapActions('classify', ['getCategory', 'getTags']),
+    _mdImgAdd(pos, file) {
+      this._imgAdd(pos, file, this.getUploadToken, this.uploadToQiniu)
+    },
     _handleCoverError(err, file, fileList) {
       console.log(err, file, fileList)
     },
@@ -140,26 +145,28 @@ export default {
     },
     // TODO 存草稿
     _updateActicleForDrafts(value) {
-      if (!value) return
-      if (this.draftInrerval) clearInterval(this.draftInrerval)
-      let a = 3
-      this.draftInrerval = setInterval(() => {
-        a--
-        if (a <= 0) {
-          clearInterval(this.draftInrerval)
-          const params = this._getParams()
-          this.insertArticle(params)
-            .then(() => {})
-            .catch(err => {
-              this.$notify({
-                title: '错误',
-                message: '添加文章错误',
-                type: 'error'
-              })
-              console.log(err)
-            })
-        }
-      }, 1000)
+      console.log(value)
+      // return
+      // if (!value) return
+      // if (this.draftInrerval) clearInterval(this.draftInrerval)
+      // let a = 3
+      // this.draftInrerval = setInterval(() => {
+      //   a--
+      //   if (a <= 0) {
+      //     clearInterval(this.draftInrerval)
+      //     const params = this._getParams()
+      //     this.insertArticle(params)
+      //       .then(() => {})
+      //       .catch(err => {
+      //         this.$notify({
+      //           title: '错误',
+      //           message: '添加文章错误',
+      //           type: 'error'
+      //         })
+      //         console.log(err)
+      //       })
+      //   }
+      // }, 1000)
     },
     _updateActicle() {
       const params = this._getParams()
@@ -239,14 +246,16 @@ export default {
   .article-edit
     display flex
     @media (max-width: 1324px)
-      flex-direction: column-reverse
+      flex-direction column-reverse
     .editor
       width calc(100% - 310px)
       min-height calc(100vh - 141px)
+      @media (max-width: 1324px)
+        width 100%
     .article-info
       width 300px
       margin-left 10px
-      @media(max-width: 1324px)
+      @media (max-width: 1324px)
         width 100%
         margin 0 0 10px 0
   .article-info
@@ -254,10 +263,10 @@ export default {
       position relative
       display flex
       align-items center
-      justify-content center
+      // justify-content center
       height 150px
       color white
-      background-color $color-mid-grey
+      // background-color $color-mid-grey
       cursor pointer
       &:hover
         .upload-cover
@@ -276,6 +285,7 @@ export default {
         i
           display none
       img
+        max-width 320px
         width 100%
         height 150px
     >>>.el-input--mini

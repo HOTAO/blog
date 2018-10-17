@@ -6,7 +6,8 @@ const pool = mysql.createPool({
   user: 'root',
   password: '12345678',
   // password: 'root',
-  database: 'HoTao_blog'
+  database: 'Hotao_blog',
+  charset: 'utf8mb4'
 })
 
 const db = {

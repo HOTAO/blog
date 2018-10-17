@@ -9,5 +9,16 @@ export default {
   },
   getSysLog() {
     return request.get('/verify/getSysLog')
+  },
+  /**
+   * 上传图片到七牛
+   */
+  uploadToQiniu(params) {
+    return request.post('http://up-z2.qiniup.com', params, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      },
+      withCredentials: false
+    })
   }
 }

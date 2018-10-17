@@ -4,16 +4,18 @@
       <span>我的简历</span>
       <el-button size="mini" @click="_submit">更新</el-button>
     </div>
-    <mavon-editor class="editor" v-model="resume.md" />
+    <mavon-editor ref="md" @imgAdd="_mdImgAdd" class="editor" v-model="resume.md" />
   </div>
 </template>
 <script>
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import marked from 'marked'
+import mdAddImage from '@/plugins/md_add_image'
 
 export default {
   name: 'Resume',
+  mixins: [mdAddImage],
   components: {
     mavonEditor
   },
@@ -33,6 +35,10 @@ export default {
   },
   methods: {
     ...mapActions('webConfig', ['insertResume', 'getResume', 'updateResume']),
+    ...mapActions(['getUploadToken', 'uploadToQiniu']),
+    _mdImgAdd(pos, file) {
+      this._imgAdd(pos, file, this.getUploadToken, this.uploadToQiniu)
+    },
     _getResume() {
       return this.getResume()
     },
@@ -46,7 +52,12 @@ export default {
         this.insertResume(parmas)
       } else {
         parmas.id = this.resume.id
-        this.updateResume(parmas)
+        this.updateResume(parmas).then(() => {
+          this.$notify({
+            title: '修改成功',
+            type: 'success'
+          })
+        })
       }
     }
   }

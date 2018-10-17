@@ -37,7 +37,7 @@
       </el-input>
       <div class="just-say-hello">
         <div class="wxpay">
-          <el-upload class="avatar-uploader" action="//up-z2.qiniup.com" :data="uploadToken" :show-file-list="false" :on-success="_handleAvatarSuccess" :on-error="_handleAvatarError" :before-upload="_beforeAvatarUpload">
+          <el-upload class="avatar-uploader" action="//up-z2.qiniup.com" :data="uploadToken" :show-file-list="false" :on-success="_handleWechatSuccess" :on-error="_handleAvatarError" :before-upload="_beforeAvatarUpload">
             <img v-if="base.wxpay_qrcode" :src="base.wxpay_qrcode">
             <span v-else>上传微信收款码</span>
             <div class="upload-avatar">
@@ -46,7 +46,7 @@
           </el-upload>
         </div>
         <div class="alipay">
-          <el-upload class="avatar-uploader" action="//up-z2.qiniup.com" :data="uploadToken" :show-file-list="false" :on-success="_handleAvatarSuccess" :on-error="_handleAvatarError" :before-upload="_beforeAvatarUpload">
+          <el-upload class="avatar-uploader" action="//up-z2.qiniup.com" :data="uploadToken" :show-file-list="false" :on-success="_handleAlipaySuccess" :on-error="_handleAvatarError" :before-upload="_beforeAvatarUpload">
             <img v-if="base.alipay_qrcode" :src="base.alipay_qrcode">
             <span v-else>上传支付宝收款码</span>
             <div class="upload-avatar">
@@ -89,7 +89,6 @@ export default {
       this.base = this.baseInfo
       delete this.base['hadOldPassword']
     }
-    this.getUploadToken()
   },
   methods: {
     ...mapActions(['getUploadToken']),
@@ -101,9 +100,7 @@ export default {
     _handleAvatarError(err, file, fileList) {
       console.log(err, file, fileList)
     },
-    _handleAvatarSuccess(res, file) {
-      console.log(res, file)
-      // this.article.cover = URL.createObjectURL(file.raw)
+    _handleAvatarSuccess(res) {
       this.base.avatar = res.url
       this.$notify({
         title: '成功',
@@ -111,18 +108,36 @@ export default {
         type: 'success'
       })
     },
-    _beforeAvatarUpload(file) {
-      console.log(file)
+    _handleWechatSuccess(res) {
+      this.base.wxpay_qrcode = res.url
+      this.$notify({
+        title: '成功',
+        message: '上传成功',
+        type: 'success'
+      })
+    },
+    _handleAlipaySuccess(res) {
+      this.base.alipay_qrcode = res.url
+      this.$notify({
+        title: '成功',
+        message: '上传成功',
+        type: 'success'
+      })
+    },
+    async _beforeAvatarUpload(file) {
+      console.log(file.type)
       const isJPG = file.type === 'image/jpeg'
+      const isPNG = file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传头像图片只能是 JPG和PNG 格式!')
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M
+      await this.getUploadToken()
+      return isJPG && isPNG && isLt2M
     },
     _getWebConfig() {
       return this.getWebConfig().then(res => {

@@ -4,12 +4,12 @@ import cache from '../cache/index.js'
 import store from '../vuex/store'
 import * as type from '../vuex/types'
 
-const Api = 'http://localhost:4000/api'
+// const Api = 'http://localhost:4000/api'
 // const Api = 'http://www.hotao.work:4000/api'
-// const Api =
-//   process.env.NODE_ENV === 'production'
-//     ? 'http://192.168.1.187:8002/api'
-//     : 'http://localhost:3000/api'
+const Api =
+  process.env.NODE_ENV === 'production'
+    ? 'http://www.hotao.work:4000/api'
+    : 'http://localhost:4000/api'
 
 export let API_ROOT = Api
 

@@ -3,6 +3,7 @@ const db_tag = require('../models/tag')
 const db_article_tag_mapper = require('../models/article-tag-mapper')
 const md5 = require('../util/md5')
 const sysLog = require('../models/sys-log')
+const db_cateGory = require('../models/category')
 
 const articleController = {
   /**
@@ -100,9 +101,11 @@ const articleController = {
       status: 2
     }
     // post_data.create_time = parseInt(now / 1000)
-    console.log(article)
     await db_article.insertArticle(article)
-
+    const cate = await db_cateGory.getCateGoryById(post_data.category_id)
+    db_cateGory.updateCateGory(post_data.category_id, {
+      article_count: cate[0].article_count + 1
+    })
     const tags = JSON.parse(post_data.tags)
     // 获取所有的tags
     const result_tags = await db_tag.getTags()
@@ -158,8 +161,30 @@ const articleController = {
       status: 2
     }
     // post_data.create_time = parseInt(now / 1000)
+    const oldArticle = await db_article.getArticleInfoById(article_id)
     await db_article.updateArticleById(article_id, article)
-
+    let oldCategory_id = oldArticle.articleInfo[0].category_id
+    // 新category_id不等于旧的
+    if (oldCategory_id !== post_data.category_id) {
+      // 旧cid不存在，那么直接+1
+      if (!oldCategory_id) {
+        const cate = await db_cateGory.getCateGoryById(post_data.category_id)
+        db_cateGory.updateCateGory(post_data.category_id, {
+          article_count: cate[0].article_count + 1
+        })
+      } else {
+        // 旧cid存在，先把旧cid -1，再把新cid +1
+        const oldCate = await db_cateGory.getCateGoryById(oldCategory_id)
+        console.log('oldCate[0].article_count:', oldCate[0].article_count)
+        db_cateGory.updateCateGory(oldCategory_id, {
+          article_count: oldCate[0].article_count - 1
+        })
+        const cate = await db_cateGory.getCateGoryById(post_data.category_id)
+        db_cateGory.updateCateGory(post_data.category_id, {
+          article_count: cate[0].article_count + 1
+        })
+      }
+    }
     const tags = JSON.parse(post_data.tags)
     // 获取所有的tags
     const result_tags = await db_tag.getTags()

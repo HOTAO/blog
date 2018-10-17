@@ -53,6 +53,10 @@ const actions = {
   },
   async setScreenInfo(store, screen) {
     store.commit(type.SET_SCREEN, screen)
+  },
+  async uploadToQiniu(store, params) {
+    const result = await api.uploadToQiniu(params)
+    return result
   }
 }
 

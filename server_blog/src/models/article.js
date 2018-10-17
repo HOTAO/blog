@@ -12,7 +12,6 @@ const article = {
    */
   async insertArticle(model) {
     let result = await dbUtils.insertData('article', model)
-    console.log('result', result)
     return result
   },
 
@@ -85,7 +84,7 @@ const article = {
    * @description 根据aid获取文章详情
    * @author HOTAO
    * @date 2018-09-14
-   * @param {*} aid
+   * @param {String} aid
    * @returns
    */
   async getArticleInfoById(aid) {
@@ -99,10 +98,28 @@ const article = {
     await dbUtils.updateData(table_name, options, aid)
     return { articleInfo }
   },
+
+  /**
+   * @description 根据文章id更新文章内容
+   * @author HOTAO
+   * @date 2018-10-16
+   * @param {String} aid
+   * @param {Object} options
+   * @returns
+   */
   async updateArticleById(aid, options) {
     const result = await dbUtils.updateData(table_name, options, aid)
     return result
   },
+
+  /**
+   * @description 修改文章的分类
+   * @author HOTAO
+   * @date 2018-10-16
+   * @param {String} cid
+   * @param {Object} options
+   * @returns
+   */
   async updateArticleByCateGoryId(cid, options) {
     const _sql = `UPDATE ${table_name} SET category_id = ${
       options.category_id
@@ -110,6 +127,15 @@ const article = {
     const result = await dbUtils.query(_sql)
     return result
   },
+
+  /**
+   * @description 修改文章状态
+   * @author HOTAO
+   * @date 2018-10-16
+   * @param {String} aid
+   * @param {Object} options
+   * @returns
+   */
   async updateArticleByStatus(aid, options) {
     const _sql = `UPDATE ${table_name} SET status = ${
       options.status
@@ -117,10 +143,26 @@ const article = {
     const result = await dbUtils.query(_sql)
     return result
   },
+
+  /**
+   * @description 根据ID删除文章
+   * @author HOTAO
+   * @date 2018-10-16
+   * @param {String} aid
+   * @returns
+   */
   async deleteArticleById(aid) {
     const result = await dbUtils.deleteDataById(table_name, aid)
     return result
   },
+
+  /**
+   * @description 获取文章列表的总数
+   * @author HOTAO
+   * @date 2018-10-16
+   * @param {Object} [{ category_id = '', tag_id = '', status = 2 }={}]
+   * @returns
+   */
   async getArticlesCount({ category_id = '', tag_id = '', status = 2 } = {}) {
     let query = dbMethods.andWhere(arguments[0])
     const _sql = `select count(*) as total_count from ${table_name} ${query}`
