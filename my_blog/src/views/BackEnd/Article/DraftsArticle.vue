@@ -44,6 +44,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination :total="server_articleListInfo.count" background :current-page="params.page" :page-size="params.pageSize" @current-change="_pageChange" layout="prev, pager, next"></el-pagination>
   </div>
 </template>
 <script>
@@ -54,19 +55,11 @@ export default {
   },
   data() {
     return {
-      articleList: [
-        {
-          title: '文章title',
-          cover: '假装有张图',
-          category: '文章分类',
-          readNumber: 101,
-          isSecret: '是',
-          createdTime: '2018-08-31 17:08',
-          publishTime: '2018-08-31 17:08',
-          updateTime: '2018-08-31 17:08',
-          status: '已发布'
-        }
-      ]
+      params: {
+        status: 1,
+        page: 1,
+        pageSize: 10
+      }
     }
   },
   created() {
@@ -74,6 +67,10 @@ export default {
   },
   methods: {
     ...mapActions('article', ['getArticlesForServer']),
+    _pageChange(page) {
+      this.$router.push({ query: { page } })
+      this._getArticlesForServer()
+    },
     _formatStatus(value) {
       return value == '1' ? '未发布' : '-'
     },
@@ -90,12 +87,8 @@ export default {
       })
     },
     _getArticlesForServer() {
-      const params = {
-        status: 1,
-        page: 1,
-        pageSize: 10
-      }
-      return this.getArticlesForServer(params)
+      this.params.page = Number(this.$route.query.page) || 1
+      return this.getArticlesForServer(this.params)
     }
   }
 }
@@ -108,4 +101,7 @@ export default {
     margin 10px 0 20px
   .article-cover
     width 100px
+  >>>.el-pagination
+    margin-top 20px
+    text-align center
 </style>

@@ -7,14 +7,14 @@
         <div class="title">最新文章</div>
         <div class="items">
           <div class="item" v-for="article in server_articleListInfo.list" :key="article.id">
-            <div class="item-title">{{article.title}}</div>
+            <div class="item-title" @click="$router.push({name: 'EditArticle', params: {articleId: article.id}})">{{article.title}}</div>
             <div class="item-time">
               <i class="iconfont icon-calendar"></i>
               {{article.createTime | timeFormat('YYYY-MM-DD')}}
             </div>
           </div>
         </div>
-        <p class="more" @click="$router.push({name: 'articleManage'})">更多</p>
+        <p class="more" @click="$router.push({name: 'ManageArticle'})">更多</p>
       </div>
       <div class="content right">
         <div class="title">系统日志</div>
@@ -29,8 +29,8 @@
           </div>
         </div>
         <p class="more-log">
-          <span>上一页</span>
-          <span>下一页</span>
+          <span @click="_getSysLog('last')">上一页</span>
+          <span @click="_getSysLog('next')">下一页</span>
         </p>
       </div>
     </div>
@@ -84,7 +84,11 @@ export default {
           to: 'BackEndTags'
         }
       ],
-      articles: [1, 2, 3, 4]
+      articles: [1, 2, 3, 4],
+      logParams: {
+        page: 1,
+        pageSize: 8
+      }
     }
   },
   components: {
@@ -107,12 +111,19 @@ export default {
   methods: {
     ...mapActions(['getHomeStatistics', 'getSysLog']),
     ...mapActions('article', ['getArticlesForServer']),
-    _getSysLog() {
-      const params = {
-        page: 1,
-        pageSize: 10
+    _getSysLog(value = '') {
+      if (value) {
+        if (value === 'last' && this.logParams.page > 1) {
+          this.logParams.page--
+        }
+        if (
+          value === 'next' &&
+          this.logParams.page * this.logParams.pageSize < this.syslogInfo.count
+        ) {
+          this.logParams.page++
+        }
       }
-      return this.getSysLog(params)
+      return this.getSysLog(this.logParams)
     },
     _getArticlesForServer() {
       const params = {

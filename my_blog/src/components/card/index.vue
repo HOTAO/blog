@@ -31,10 +31,11 @@ export default {
 
 <style lang="stylus" scoped>
 #articleCard
+  &:not(:last-child)
+    margin-bottom 20px
   .card-item
     box-shadow 0 0 5px 0 rgba($color-main, 0.1)
     padding 20px
-    margin-bottom 20px
   .article-title
     font-size 22px
     color $color-main

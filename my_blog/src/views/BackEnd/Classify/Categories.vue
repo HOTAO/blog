@@ -39,6 +39,7 @@
         <el-button type="primary" @click="_submit">确 定</el-button>
       </div>
     </el-dialog>
+    <el-pagination :total="categorysInfo.count" background :current-page="params.page" :page-size="params.pageSize" @current-change="_pageChange" layout="prev, pager, next"></el-pagination>
   </div>
 </template>
 <script>
@@ -50,6 +51,10 @@ export default {
       form: {
         name: '',
         status: ''
+      },
+      params: {
+        page: 1,
+        pageSize: 10
       }
     }
   },
@@ -84,10 +89,13 @@ export default {
       }
       this.dialogFormVisible = true
     },
+    _pageChange(page) {
+      this.$router.push({ query: { page } })
+      this._getCategory()
+    },
     _getCategory() {
-      this.getCategory().then(res => {
-        console.log(res)
-      })
+      this.params.page = Number(this.$route.query.page) || 1
+      this.getCategory(this.params)
     },
     _submit() {
       const hasId = Boolean(this.form.id)
@@ -153,4 +161,7 @@ export default {
         background-color lighten($color-main, 10%)
   >>>.el-input
     width 194px
+  >>>.el-pagination
+    margin-top 20px
+    text-align center
 </style>

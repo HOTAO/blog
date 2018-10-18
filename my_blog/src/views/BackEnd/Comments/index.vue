@@ -34,6 +34,7 @@
         <el-button type="primary" @click="_submit">确 定</el-button>
       </div>
     </el-dialog>
+    <el-pagination :total="commentsInfo.count" background :current-page="params.page" :page-size="params.pageSize" @current-change="_pageChange" layout="prev, pager, next"></el-pagination>
   </div>
 </template>
 <script>
@@ -46,6 +47,10 @@ export default {
       form: {
         content: '',
         placeholder: ''
+      },
+      params: {
+        page: 1,
+        pageSize: 10
       }
     }
   },
@@ -62,10 +67,13 @@ export default {
       'getAllComments',
       'deleteComment'
     ]),
+    _pageChange(page) {
+      this.$router.push({ query: { page } })
+      this._geAlltComments()
+    },
     _geAlltComments() {
-      this.getAllComments({ page: 1, pageSize: 20 }).then(res => {
-        console.log(res)
-      })
+      this.params.page = Number(this.$route.query.page) || 1
+      this.getAllComments(this.params)
     },
     _showDialog(comment) {
       this.dialogFormVisible = true
@@ -131,4 +139,7 @@ export default {
       border-radius 5px
       &:hover
         background-color lighten($color-main, 10%)
+  >>>.el-pagination
+    margin-top 20px
+    text-align center
 </style>

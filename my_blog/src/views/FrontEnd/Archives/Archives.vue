@@ -13,6 +13,7 @@
         </div>
       </div>
     </div>
+    <el-pagination :total="web_articleListInfo.count" background :current-page="params.page" :page-size="params.pageSize" @current-change="_pageChange" layout="prev, pager, next"></el-pagination>
   </div>
 </template>
 
@@ -30,7 +31,12 @@ export default {
   data() {
     return {
       archivesList: [],
-      total: 10
+      total: 10,
+      params: {
+        status: 2,
+        page: 1,
+        pageSize: 10
+      }
     }
   },
   created() {
@@ -38,13 +44,13 @@ export default {
   },
   methods: {
     ...mapActions('article', ['getArticleByTag', 'getArticlesForWeb']),
+    _pageChange(page) {
+      this.$router.push({ query: { page } })
+      this._getArticlesForWeb()
+    },
     _getArticlesForWeb() {
-      const params = {
-        page: 1,
-        pageSize: 10,
-        status: 2
-      }
-      this.getArticlesForWeb(params)
+      this.params.page = Number(this.$route.query.page) || 1
+      this.getArticlesForWeb(this.params)
         .then(res => {
           const tempData = {}
           const len = res.list.length
@@ -126,7 +132,7 @@ export default {
         color #555555
         padding 0 15px
         font-size 28px
-        margin-bottom 20px
+        // margin-bottom 20px
         @media (max-width: 768px)
           font-size 22px
         &:before
@@ -155,6 +161,9 @@ export default {
             left -19px
             @media (max-width: 768px)
               left -18px
+  >>>.el-pagination
+    margin-top 20px
+    text-align center
 @keyframes show
   from
     margin-top -10px

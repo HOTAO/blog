@@ -39,6 +39,7 @@
         <el-button type="primary" @click="_submit">确 定</el-button>
       </div>
     </el-dialog>
+    <el-pagination :total="tagsInfo.count" background :current-page="params.page" :page-size="params.pageSize" @current-change="_pageChange" layout="prev, pager, next"></el-pagination>
   </div>
 </template>
 <script>
@@ -50,6 +51,10 @@ export default {
       form: {
         name: '',
         status: ''
+      },
+      params: {
+        page: 1,
+        pageSize: 10
       }
     }
   },
@@ -66,6 +71,10 @@ export default {
       'updateTag',
       'deleteTag'
     ]),
+    _pageChange(page) {
+      this.$router.push({ query: { page } })
+      this._getTags()
+    },
     _showMessageBox(tag) {
       this.$confirm(`确定删除'${tag.name}'标签么？`, '提示', {
         cancelButtonText: '取消',
@@ -85,9 +94,8 @@ export default {
       this.dialogFormVisible = true
     },
     _getTags() {
-      this.getTags().then(res => {
-        console.log(res)
-      })
+      this.params.page = Number(this.$route.query.page) || 1
+      this.getTags(this.params)
     },
     _submit() {
       const hasId = Boolean(this.form.id)
@@ -151,4 +159,7 @@ export default {
       border-radius 5px
       &:hover
         background-color lighten($color-main, 10%)
+  >>>.el-pagination
+    margin-top 20px
+    text-align center
 </style>

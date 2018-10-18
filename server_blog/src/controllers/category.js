@@ -54,7 +54,7 @@ const category = {
     ctx.body = { success: '更新成功' }
   },
   async getCateGory(ctx) {
-    const list = await db_category.getCateGorys()
+    const list = await db_category.getCateGorys(ctx.query)
     const count = await db_category.getCateGoryCount()
     ctx.body = { list, count: count[0].total_count || 0 }
   }

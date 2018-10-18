@@ -26,8 +26,7 @@ const sysLog = {
    * @returns
    */
   async getSysLog({ page = 1, pageSize = 10 } = {}) {
-    const _sql = `select * from ${table_name} limit ${(page - 1) *
-      pageSize}, ${pageSize} `
+    const _sql = `select * from ${table_name} order by time desc limit ${(page - 1) * pageSize}, ${pageSize} `
     const result = await dbUtils.query(_sql)
     return result
   },

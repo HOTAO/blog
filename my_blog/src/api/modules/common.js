@@ -7,8 +7,8 @@ export default {
   getHomeStatistics() {
     return request.get('/verify/getHomeStatistics')
   },
-  getSysLog() {
-    return request.get('/verify/getSysLog')
+  getSysLog(params) {
+    return request.get('/verify/getSysLog', { params })
   },
   /**
    * 上传图片到七牛

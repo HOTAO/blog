@@ -31,7 +31,7 @@ const tag = {
     ctx.body = { success: '更新成功' }
   },
   async getTags(ctx) {
-    const list = await db_tag.getTags()
+    const list = await db_tag.getTags(ctx.query)
     const count = await db_tag.getTagsCount()
     ctx.body = { list, count: count[0].total_count || 0 }
   }
