@@ -12,7 +12,6 @@ const category = {
       categoryKeyList[item.name] = true
     })
     if (categoryKeyList[postData.name]) {
-      console.log(categoryKeyList[postData.name])
       ctx.status = 400
       ctx.body = { error: '当前分类已存在' }
       return

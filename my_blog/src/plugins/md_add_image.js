@@ -6,8 +6,6 @@ const mdAddImage = {
           let formParams = new FormData()
           formParams.append('token', data.token)
           formParams.append('file', file)
-          console.log(pos, file)
-          console.log(formParams)
           this._startUploadImg(formParams, pos, callback2)
         })
         .catch(err => {

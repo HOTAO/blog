@@ -175,7 +175,6 @@ const articleController = {
       } else {
         // 旧cid存在，先把旧cid -1，再把新cid +1
         const oldCate = await db_cateGory.getCateGoryById(oldCategory_id)
-        console.log('oldCate[0].article_count:', oldCate[0].article_count)
         db_cateGory.updateCateGory(oldCategory_id, {
           article_count: oldCate[0].article_count - 1
         })

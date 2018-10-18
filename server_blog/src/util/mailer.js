@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer')
 
 const _sendEmail = (comment, toEmail = '1019872217@qq.com') => {
   nodemailer.createTestAccount((err, account) => {
-    console.log(err, account)
     let transport = nodemailer.createTransport({
       host: 'smtp.qq.com',
       port: '465',

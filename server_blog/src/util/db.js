@@ -31,7 +31,6 @@ const db = {
               console.log('error:', err)
             } else {
               resolve(rows)
-              console.log('sql语句执行完毕，退出请按ctrl+c')
             }
             connection.release()
           })

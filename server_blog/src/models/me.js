@@ -8,7 +8,6 @@ const aboutMe = {
   },
   async updateMe(id, options) {
     const result = await dbUtils.updateData(table_name, options, id)
-    console.log(result)
     return result
   },
   async getMe() {

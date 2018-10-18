@@ -15,7 +15,6 @@ const comment = {
         ? result[0].parent_id
         : result[0].id
       // 评论者 有邮箱
-      console.log(postData.email, result[0].email)
       if (postData.email) {
         // 被评论者有邮箱，且不为同一个邮箱
         if (result[0].email && result[0].email !== postData.email) {

@@ -3,7 +3,6 @@ const table_name = 'web_config'
 
 const webConfig = {
   async insertConfig(model) {
-    console.log('model:', model)
     const result = await dbUtils.insertData(table_name, model)
     return result
   },
@@ -14,7 +13,6 @@ const webConfig = {
   async getConfig() {
     const _sql = `select * from ${table_name}`
     const result = await dbUtils.query(_sql)
-    console.log(result)
     return result
   }
 }

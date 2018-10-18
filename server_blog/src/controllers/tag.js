@@ -11,7 +11,6 @@ const tag = {
       tagKeyList[item.name] = true
     })
     if (tagKeyList[postData.name]) {
-      console.log(tagKeyList[postData.name])
       ctx.status = 400
       ctx.body = { error: '当前标签已存在' }
       return
