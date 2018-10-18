@@ -121,9 +121,7 @@ const article = {
    * @returns
    */
   async updateArticleByCateGoryId(cid, options) {
-    const _sql = `UPDATE ${table_name} SET category_id = ${
-      options.category_id
-    } WHERE category_id = ${cid}`
+    const _sql = `UPDATE ${table_name} SET category_id = '${options.category_id}' WHERE category_id = '${cid}'`
     const result = await dbUtils.query(_sql)
     return result
   },

@@ -20,8 +20,8 @@ const tag = {
     ctx.body = { success: '添加成功' }
   },
   async deleteTagById(ctx) {
-    await db_article_tag_mapper.deleteArticleTagMapperByTagId(ctx.query.tag_id)
-    await db_tag.deleteTags(ctx.query.tag_id)
+    await db_article_tag_mapper.deleteArticleTagMapperByTagId(ctx.params.id)
+    await db_tag.deleteTag(ctx.params.id)
     ctx.body = { success: '删除成功' }
   },
   async updateTag(ctx) {

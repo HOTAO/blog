@@ -123,7 +123,13 @@ const articleController = {
         tagId = md5.creatId()
         await db_tag.insertTag({
           id: tagId,
-          name: tag
+          name: tag,
+          article_count: 1
+        })
+      } else {
+        const tagInfo = await db_tag.getTagById(tagId)
+        await db_tag.updateTag(tagId, {
+          article_count: tagInfo[0].article_count + 1
         })
       }
       // 新增一条tag与article的映射
@@ -195,6 +201,12 @@ const articleController = {
       tagListKeys[item.id] = true
     })
     // 循环处理tag与article之前，先把该文章的所有映射删掉
+    const oldTags = await db_article_tag_mapper.getTagsByArticleId(article_id)
+    oldTags.map(async oldTag => {
+      await db_tag.updateTag(oldTag.tag_id, {
+        article_count: oldTag.article_count - 1
+      })
+    })
     await db_article_tag_mapper.deleteArticleTagMapperByArticleId(article_id)
     // 循环处理tag与article
     tags.map(async tag => {
@@ -202,9 +214,11 @@ const articleController = {
       // 判断是否已经有该tag，没有的话就添加一个新的tag
       if (!tagListKeys[tag]) {
         tagId = md5.creatId()
-        await db_tag.insertTag({
-          id: tagId,
-          name: tag
+        await db_tag.insertTag({ id: tagId, name: tag, article_count: 1 })
+      } else {
+        const tagInfo = await db_tag.getTagById(tagId)
+        await db_tag.updateTag(tagId, {
+          article_count: tagInfo[0].article_count + 1
         })
       }
       // 新增一条tag与article的映射

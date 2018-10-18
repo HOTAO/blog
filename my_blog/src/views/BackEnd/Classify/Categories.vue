@@ -18,7 +18,7 @@
       <el-table-column fixed="right" label="操作" width="110">
         <template slot-scope="item">
           <el-button @click="_showDialog(item.row)" size="small" icon="el-icon-edit" type="primary" circle></el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+          <el-button @click="_showMessageBox(item.row)" size="mini" type="danger" icon="el-icon-delete" circle></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -66,6 +66,16 @@ export default {
       'updateCategory',
       'deleteCategory'
     ]),
+    _showMessageBox(category) {
+      this.$confirm(`确定删除'${category.name}'分类么？`, '提示', {
+        cancelButtonText: '取消',
+        confirmButtonText: '确定'
+      }).then(() => {
+        this.deleteCategory(category.id).then(() => {
+          this._getCategory()
+        })
+      })
+    },
     _showDialog(obj) {
       this.form = {
         name: obj.name || '',

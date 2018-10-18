@@ -44,13 +44,13 @@ const articleTagMapper = {
    * @returns
    */
   async getTagsByArticleId(aid) {
-    const _sql2 = `SELECT tag_id, t.name as tag_name  from ${tableNmae} atm left join tag t on atm.tag_id = t.id where atm.article_id = '${aid}'`
+    const _sql2 = `SELECT tag_id, t.name as tag_name, t.article_count  from ${tableNmae} atm left join tag t on atm.tag_id = t.id where atm.article_id = '${aid}'`
     tags = await dbUtils.query(_sql2)
     return tags
   },
 
   async deleteArticleTagMapperByTagId(tagId) {
-    const _sql = `DELETE FROM ${tableNmae} WHERE tag_id = ${tagId}`
+    const _sql = `DELETE FROM ${tableNmae} WHERE tag_id = '${tagId}'`
     await dbUtils.query(_sql)
     result = {
       success: '删除成功'

@@ -39,7 +39,7 @@ const routers = router
 
   .get('/getTags', tagController.getTags)
   .post('/verify/insertTag', tagController.insertTag)
-  .delete('/verify/deleteTag', tagController.deleteTagById)
+  .delete('/verify/deleteTag/:id', tagController.deleteTagById)
   .patch('/verify/updateTag/:id', tagController.updateTag)
 
   .get('/getResume', resumeController.getMyResume)
@@ -62,7 +62,7 @@ const routers = router
 
   .get('/getCategory', categoryController.getCateGory)
   .post('/verify/insertCategory', categoryController.insertCateGory)
-  .delete('/verify/deleteCategory', categoryController.deleteCateGoryById)
+  .delete('/verify/deleteCategory/:id', categoryController.deleteCateGoryById)
   .patch(
     '/verify/updateCategory/:category_id',
     categoryController.updateCateGoryById

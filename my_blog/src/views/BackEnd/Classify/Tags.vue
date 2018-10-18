@@ -18,7 +18,7 @@
       <el-table-column fixed="right" label="操作" width="110">
         <template slot-scope="item">
           <el-button @click="_showDialog(item.row)" size="small" icon="el-icon-edit" type="primary" circle></el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+          <el-button @click="_showMessageBox(item.row)" size="mini" type="danger" icon="el-icon-delete" circle></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -66,7 +66,16 @@ export default {
       'updateTag',
       'deleteTag'
     ]),
-
+    _showMessageBox(tag) {
+      this.$confirm(`确定删除'${tag.name}'标签么？`, '提示', {
+        cancelButtonText: '取消',
+        confirmButtonText: '确定'
+      }).then(() => {
+        this.deleteTag(tag.id).then(() => {
+          this._getTags()
+        })
+      })
+    },
     _showDialog(obj) {
       this.form = {
         name: obj.name || '',
