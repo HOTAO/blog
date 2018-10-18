@@ -102,10 +102,12 @@ const articleController = {
     }
     // post_data.create_time = parseInt(now / 1000)
     await db_article.insertArticle(article)
-    const cate = await db_cateGory.getCateGoryById(post_data.category_id)
-    db_cateGory.updateCateGory(post_data.category_id, {
-      article_count: cate[0].article_count + 1
-    })
+    if (post_data.category_id) {
+      const cate = await db_cateGory.getCateGoryById(post_data.category_id)
+      db_cateGory.updateCateGory(post_data.category_id, {
+        article_count: cate[0].article_count + 1
+      })
+    }
     const tags = JSON.parse(post_data.tags)
     // 获取所有的tags
     const result_tags = await db_tag.getTags()

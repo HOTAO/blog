@@ -5,7 +5,7 @@
       <div class="items">
         <div class="item categorie" v-for="cate in categorysInfo.list" :key="cate.id" @click="$router.push({name: 'ArticleList',query:{type:'category',id: cate.id}})">
           {{cate.name}}
-          <span>3篇</span>
+          <span>{{cate.article_count}}篇</span>
         </div>
       </div>
       <div class="title">标签</div>
