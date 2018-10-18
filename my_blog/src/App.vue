@@ -11,7 +11,6 @@
     </div>
     <rightNav v-if="!isBackEnd && isPc"></rightNav>
     <toTop :show="showScrollToTop"></toTop>
-    <!-- <login></login> -->
     <login v-if="!isLogin&&isBackEnd"></login>
   </div>
 </template>
@@ -53,12 +52,12 @@ export default {
     }
   },
   mounted() {
-    document.title = `被发现啦(*´∇｀*)`
+    document.title = `(ฅ>ω<*ฅ) 噫又好了~`
     this._updateScreenInfo()
     window.addEventListener('resize', this._updateScreenInfo)
     window.addEventListener('scroll', this._scrollListener)
     let visProp = this._getHiddenProp()
-    this.evtname = visProp.replace(/[H|h]idden/, '') + '_visibilitychange'
+    this.evtname = visProp.replace(/[H|h]idden/, '') + 'visibilitychange'
     document.addEventListener(this.evtname, this._visibilityChange, false)
   },
   beforeDestroy() {
@@ -76,7 +75,6 @@ export default {
       this.viewWidth = this.screenInfo.width - temp + 'px'
     },
     _updateScreenInfo() {
-      console.log(window.outerWidth)
       this.setScreenInfo({
         width: document.body.clientWidth,
         height: document.body.clientHeight
@@ -118,13 +116,14 @@ export default {
       return null
     },
     _visibilityChange() {
+      console.log(document[this._getVisibilityState()])
       switch (document[this._getVisibilityState()]) {
         case 'visible':
-          document.title = `被发现啦(*´∇｀*)`
+          document.title = `(ฅ>ω<*ฅ) 噫又好了~`
           break
         case 'hidden':
         default:
-          document.title = `藏好啦(つд⊂)`
+          document.title = '╭(°A°`)╮ 页面崩溃啦 ~ 快回来看看吧~！'
           break
       }
     }

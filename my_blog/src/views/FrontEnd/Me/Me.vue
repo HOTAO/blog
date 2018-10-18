@@ -1,5 +1,5 @@
 <template>
-  <div id="Me">
+  <div id="Me" v-loading="loading">
     <div class="container preview">
       <div class="header">
         <h1>关于我</h1>
@@ -36,7 +36,8 @@ export default {
   },
   data() {
     return {
-      showQrcode: false
+      showQrcode: false,
+      loading: false
     }
   },
   created() {
@@ -46,7 +47,10 @@ export default {
   methods: {
     ...mapActions('webConfig', ['getMe', 'getWebConfig']),
     _getMe() {
-      return this.getMe()
+      this.loading = true
+      return this.getMe().then(() => {
+        this.loading = false
+      })
     },
     _getWebConfig() {
       return this.getWebConfig()
@@ -58,7 +62,7 @@ export default {
 <style lang="stylus" scoped>
 #Me
   padding 40px 0
-  @media (max-width 768px)
+  @media (max-width: 768px)
     padding-top 20px
   .preview
     border 1px solid $color-border

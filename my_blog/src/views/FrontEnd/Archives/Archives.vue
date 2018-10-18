@@ -1,5 +1,5 @@
 <template>
-  <div id="archives">
+  <div id="archives" v-loading="loading">
     <div class="container archives-wrap">
       <div class="time-line"></div>
       <div class="list-content">
@@ -36,7 +36,8 @@ export default {
         status: 2,
         page: 1,
         pageSize: 10
-      }
+      },
+      loading: false
     }
   },
   created() {
@@ -49,6 +50,7 @@ export default {
       this._getArticlesForWeb()
     },
     _getArticlesForWeb() {
+      this.loading = true
       this.params.page = Number(this.$route.query.page) || 1
       this.getArticlesForWeb(this.params)
         .then(res => {
@@ -67,6 +69,7 @@ export default {
             tempData[year][month].push(item)
             console.log(tempData)
           }
+          this.loading = false
           this.archivesList = tempData
         })
         .catch(err => console.log(err))

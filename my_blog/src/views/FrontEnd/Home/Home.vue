@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="home" v-loading="loading">
     <ContentCard :list="web_articleListInfo.list" />
     <el-pagination :total="web_articleListInfo.count" background :current-page="params.page" :page-size="params.pageSize" @current-change="_pageChange" layout="prev, pager, next"></el-pagination>
   </div>
@@ -19,7 +19,8 @@ export default {
         status: 2,
         page: 1,
         pageSize: 10
-      }
+      },
+      loading: false
     }
   },
   computed: {
@@ -36,7 +37,10 @@ export default {
     },
     _getArticlesForWeb() {
       this.params.page = Number(this.$route.query.page) || 1
-      return this.getArticlesForWeb(this.params)
+      this.loading = true
+      return this.getArticlesForWeb(this.params).then(() => {
+        this.loading = false
+      })
     }
   }
 }
@@ -44,6 +48,8 @@ export default {
 <style lang="stylus" scoped>
 #home
   padding-bottom 40px
+  margin-bottom 40px !important
+  min-height 500px
   >>>.el-pagination
     margin-top 20px
     text-align center

@@ -1,5 +1,5 @@
 <template>
-  <div id="articelList">
+  <div id="articelList" v-loading="loading">
     <div class="container">
       <card v-for="article in web_articleListInfo.list" :key="article.article.id" :article="article.article" :tags="article.tags"></card>
     </div>
@@ -16,7 +16,9 @@ export default {
     card
   },
   data() {
-    return {}
+    return {
+      loading: false
+    }
   },
   created() {
     this._initData()
@@ -46,10 +48,16 @@ export default {
       }
     },
     _getArticleByTag(id) {
-      this.getArticleByTag(id)
+      this.loading = true
+      this.getArticleByTag(id).then(() => {
+        this.loading = false
+      })
     },
     _getArticlesForWeb(query) {
-      this.getArticlesForWeb(query)
+      this.loading = true
+      this.getArticlesForWeb(query).then(() => {
+        this.loading = false
+      })
     }
   }
 }

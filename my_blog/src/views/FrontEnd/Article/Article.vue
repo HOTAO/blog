@@ -1,5 +1,5 @@
 <template>
-  <div id="articles">
+  <div id="articles" v-loading="loading">
     <div class="container preview">
       <div class="title">
         <p>{{articleData.articleInfo.title}}</p>
@@ -33,7 +33,9 @@ export default {
     comments
   },
   data() {
-    return {}
+    return {
+      loading: false
+    }
   },
   created() {
     this._getArticleInfoById(this.$route.params.id)
@@ -41,7 +43,10 @@ export default {
   methods: {
     ...mapActions('article', ['getArticleInfoById']),
     _getArticleInfoById(id) {
-      return this.getArticleInfoById(id)
+      this.loading = true
+      return this.getArticleInfoById(id).then(() => {
+        this.loading = false
+      })
     }
   }
 }
