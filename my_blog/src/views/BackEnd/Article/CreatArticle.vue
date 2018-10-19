@@ -36,17 +36,12 @@
 </template>
 <script>
 // import api from '@/api'
-import { mavonEditor } from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
 import marked from 'marked'
 import mdAddImage from '@/plugins/md_add_image'
 
 export default {
   name: 'creatArticle',
   mixins: [mdAddImage],
-  components: {
-    mavonEditor
-  },
   computed: {
     ...mapGetters(['uploadToken']),
     ...mapGetters('article', ['articleData']),

@@ -8,17 +8,12 @@
   </div>
 </template>
 <script>
-import { mavonEditor } from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
 import marked from 'marked'
 import mdAddImage from '@/plugins/md_add_image'
 
 export default {
   name: 'Resume',
   mixins: [mdAddImage],
-  components: {
-    mavonEditor
-  },
   computed: {
     ...mapGetters('webConfig', ['resumeInfo'])
   },
