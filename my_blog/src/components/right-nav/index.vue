@@ -12,7 +12,7 @@
           <div class="siet-info">
             <img :src="baseInfo.avatar" alt="">
             <p class="name">{{baseInfo.blog_name}}</p>
-            <p>{{baseInfo.salt}}</p>
+            <p>{{baseInfo.sign}}</p>
           </div>
           <div class="siet-menu">
             <div class="menu-item" @click="$router.push({name:'Archives'})">
