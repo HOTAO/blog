@@ -12,9 +12,11 @@ const plugins = [
     mapState: ['vuex', 'mapState']
   })
 ]
-const externals = {}
+let externals = {}
 if (process.env.analyze === 'true') {
   plugins.push(new BundleAnalyzerPlugin())
+}
+if (process.env.NODE_ENV === 'production') {
   externals = {
     vue: 'Vue',
     'vue-router': 'VueRouter',
@@ -31,7 +33,8 @@ module.exports = {
       addStyleResource(config.module.rule('stylus').oneOf(type))
     )
   },
-  productionSourceMap: false,
+  // 去掉sourceMap
+  productionSourceMap: process.env.NODE_ENV === 'production',
   configureWebpack: {
     externals,
     plugins

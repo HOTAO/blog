@@ -21,8 +21,7 @@
       <div class="list-item" v-for="cm in commentsInfo.list" :key="cm.id">
         <div class="info">
           <div class="commenter">
-            <img v-if="!cm.is_author" src="~@/assets/logo.png" alt="" class="avatar">
-            <img v-else :src="baseInfo.avatar" alt="" class="avatar">
+            <img :src="_getAvatar(cm)" alt="头像" class="avatar">
             <div class="name-time">
               <div class="name">{{_getName(cm)}}
                 <el-button type="text" @click="_reply(cm)">回复</el-button>
@@ -34,8 +33,7 @@
           <div class="list-item-children" v-for="child in cm.children" :key="child.id">
             <div class="info">
               <div class="commenter">
-                <img v-if="!child.is_author" src="~@/assets/logo.png" alt="" class="avatar">
-                <img v-else :src="baseInfo.avatar" alt="" class="avatar">
+                <img :src="_getAvatar(child)" alt="头像" class="avatar">
                 <div class="name-tiem">
                   <div class="name">{{_getName(child)}}
                     <el-button type="text" @click="_reply(child)">回复</el-button>
@@ -67,7 +65,15 @@ export default {
         content: '',
         reply_id: 0,
         reply_Name: ''
-      }
+      },
+      avatarList: [
+        'http://blogimg.hotao.work/9de49b6cc2c18b17d1652b0228f3febd.png',
+        'http://blogimg.hotao.work/891fa80a103ce5ff5598f701591573d1.png',
+        'http://blogimg.hotao.work/700080c250e0638f22c2c69b20ccaa77.png',
+        'http://blogimg.hotao.work/8757ac813fee1e5a4b09775ce252d884.png',
+        'http://blogimg.hotao.work/a391a4ffd709f2a8b571b2f93788268e.png',
+        'http://blogimg.hotao.work/adb831a7fdd83dd1e2a309ce7591dff8.png'
+      ]
     }
   },
   created() {
@@ -75,7 +81,6 @@ export default {
   },
   watch: {
     'comment.content': function(newVal) {
-      console.log(newVal)
       if (this.comment.replyName !== '') {
         if (newVal.indexOf(this.comment.replyName) !== 0) {
           this.comment.replyId = 0
@@ -89,18 +94,22 @@ export default {
     _getName(comment) {
       return comment.is_author ? `${comment.name}（作者）` : comment.name
     },
+    _setAvatar() {
+      const index = Math.floor((Math.random() * 10) % 6)
+      this.comment.avatar = this.avatarList[index]
+    },
     _getAvatar(comment) {
-      return comment.is_author ? this.baseInfo.avatar : '~@/assets/logo.png'
+      return comment.is_author ? this.baseInfo.avatar : comment.avatar
     },
     _getComments() {
       this.getComments({ article_id: this.articleId })
     },
     _reply(comment) {
-      console.log(comment)
       this.comment.reply_id = comment.id
       this.comment.content = `@${comment.name} `
     },
     _send() {
+      this._setAvatar()
       this.$refs.commentForm.validate(valid => {
         if (valid) {
           const params = {
@@ -109,9 +118,9 @@ export default {
             content: this.comment.content,
             article_id: this.articleId,
             reply_id: this.comment.reply_id,
-            is_author: 0
+            is_author: 0,
+            avatar: this.comment.avatar
           }
-          console.log(params)
           this.insertComment(params).then(() => {
             this.$notify({
               type: 'success',

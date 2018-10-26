@@ -12,13 +12,13 @@ export default {
   watch: {
     content() {
       // this.setArticleMenu(false)
-      console.log('watch')
       this._getImg()
+      // setTimeout(this._getImg, 1000)
     }
   },
   mounted() {
-    console.log('mounted')
     this._getImg()
+    // setTimeout(this._getImg, 1000)
   },
   methods: {
     _getImg() {
@@ -27,22 +27,25 @@ export default {
         let imgDomList = document
           .getElementById('markdown-preview-body')
           .getElementsByTagName('img')
-        console.log(('imgDomList:', imgDomList))
-        this.imgList = []
-        Array.prototype.slice.call(imgDomList).forEach((img, index) => {
-          img.indexTag = index
+        Array.prototype.slice.call(imgDomList).forEach(img => {
           img.onclick = this.showBigImg
-          this.imgList.push({
-            src: img.src,
-            w: img.width,
-            h: img.height,
-            target: img
-          })
         })
       })
     },
     showBigImg(e) {
-      console.log('你好')
+      let imgDomList = document
+        .getElementById('markdown-preview-body')
+        .getElementsByTagName('img')
+      this.imgList = []
+      Array.prototype.slice.call(imgDomList).forEach((img, index) => {
+        img.indexTag = index
+        this.imgList.push({
+          src: img.src,
+          w: img.width,
+          h: img.height,
+          target: img
+        })
+      })
       this.$photoPreview.open(e.target.indexTag, this.imgList)
     }
   }
