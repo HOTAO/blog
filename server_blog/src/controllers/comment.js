@@ -11,19 +11,30 @@ const comment = {
       if (result.length <= 0) {
         ctx.body = { error: '回复的评论已经不存在了~' }
       }
+      /* 
+       * 判断回复的评论是否有父id
+       * 有，说明回复的评论也是子评论，则把当前评论的父ID设置为回复评论的父id
+       * 无，说明回复的评论是一级评论（即父评论），则把当前评论的父ID设置为回复评论的id
+      */
       postData.parent_id = result[0].parent_id
         ? result[0].parent_id
         : result[0].id
       // 评论者 有邮箱
-      if (postData.email) {
-        // 被评论者有邮箱，且不为同一个邮箱
+      if (postData.email && global.clientIp !== '127.0.0.1') {
+        // 被评论者有邮箱，且与评论者不为同一个邮箱
         if (result[0].email && result[0].email !== postData.email) {
           mailer._sendEmail(postData, result[0].email)
         }
       }
     } else {
       // 直接评论
-      mailer._sendEmail(postData)
+      if (global.clientIp !== '127.0.0.1') mailer._sendEmail(postData)
+    }
+    const ipResults = await db_comment.getCommentInfoByOptions({
+      ip: global.clientIp
+    })
+    if (ipResults.length > 0) {
+      postData.avatar = ipResults[ipResults.length - 1].avatar
     }
     await db_comment.insertComment(postData)
     ctx.body = { success: '添加成功' }

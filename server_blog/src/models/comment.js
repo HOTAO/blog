@@ -12,6 +12,7 @@ const friends = {
    */
   async insertComment(model) {
     model.create_time = +new Date()
+    model.ip = global.clientIp
     const result = await dbUtil.insertData(table_name, model)
     return result
   },
@@ -54,9 +55,16 @@ const friends = {
     const result = await dbUtil.query(_sql)
     return result
   },
+  async getCommentInfoByOptions(options) {
+    let query = arguments[0] ? dbMethods.andWhere(arguments[0]) : ''
+    const _sql = `select * from ${table_name} ${query}`
+    const result = await dbUtil.query(_sql)
+    return result
+  },
   async getCommentsCounts({ articli_id = 0 } = {}) {
     let query = dbMethods.andWhere(arguments[0])
     const _sql = `select count(*) as total_count from ${table_name} ${query}`
+    console.log(_sql)
     const result = await dbUtil.query(_sql)
     return result
   }
