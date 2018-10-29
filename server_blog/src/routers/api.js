@@ -30,7 +30,7 @@ const routers = router
 
   .post('/login', adminController.login)
 
-  .get('/verify/getHomeStatistics', staticController.getHomeStatistics)
+  .get('/getHomeStatistics', staticController.getHomeStatistics)
   .get('/getUploadToken', qiniuController.getUploadToken)
 
   .get('/getWebConfig', webConfigController.getConfig)

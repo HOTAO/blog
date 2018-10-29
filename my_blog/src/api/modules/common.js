@@ -5,7 +5,7 @@ export default {
     return request.get('/getUploadToken')
   },
   getHomeStatistics() {
-    return request.get('/verify/getHomeStatistics')
+    return request.get('/getHomeStatistics')
   },
   getSysLog(params) {
     return request.get('/verify/getSysLog', { params })

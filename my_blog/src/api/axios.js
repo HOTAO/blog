@@ -8,7 +8,7 @@ import * as type from '../vuex/types'
 // const Api = 'http://www.hotao.work:4000/api'
 const Api =
   process.env.NODE_ENV === 'production'
-    ? 'http://www.hotao.work:4000/api'
+    ? 'http://api.hotao.work/api'
     : 'http://localhost:4000/api'
 
 export let API_ROOT = Api
