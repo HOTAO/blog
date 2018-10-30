@@ -32,7 +32,14 @@ export default {
     login
   },
   computed: {
-    ...mapGetters(['isBackEnd', 'screenInfo']),
+    ...mapGetters([
+      'isBackEnd',
+      'screenInfo',
+      'hasArticleMenu',
+      'articleMenuInfo',
+      'sourceArticleMenuInfo',
+      'rightNavStatus'
+    ]),
     ...mapGetters('auth', ['isLogin'])
   },
   watch: {
@@ -42,6 +49,9 @@ export default {
       if (value.width <= 768) {
         this.isPc = false
       }
+    },
+    rightNavStatus: function(value) {
+      this._setViewWidth()
     }
   },
   data() {
@@ -66,13 +76,14 @@ export default {
     document.removeEventListener(this.evtname, this._visibilityChange, false)
   },
   methods: {
-    ...mapActions(['setScreenInfo']),
+    ...mapActions(['setScreenInfo', 'setArticleMenuTag']),
     _setViewWidth() {
       let temp = 20
-      // if (this.screenInfo.width > 990) {
-      //   temp = 340
-      // }
+      if (this.screenInfo.width > 768 && this.rightNavStatus) {
+        temp = 340
+      }
       this.viewWidth = this.screenInfo.width - temp + 'px'
+      console.log(this.viewWidth)
     },
     _updateScreenInfo() {
       this.setScreenInfo({
@@ -87,6 +98,18 @@ export default {
         this.showScrollToTop = true
       } else {
         this.showScrollToTop = false
+      }
+      if (this.hasArticleMenu) {
+        let scrollTop =
+          document.body.scrollTop || document.documentElement.scrollTop
+        this.sourceArticleMenuInfo.some(item => {
+          let top = document.getElementById(item.id).getBoundingClientRect().top
+          top += scrollTop
+          if (scrollTop <= top) {
+            this.setArticleMenuTag(item.tag)
+          }
+          return scrollTop <= top
+        })
       }
     },
     _getHiddenProp() {
@@ -116,7 +139,6 @@ export default {
       return null
     },
     _visibilityChange() {
-      console.log(document[this._getVisibilityState()])
       switch (document[this._getVisibilityState()]) {
         case 'visible':
           document.title = `(ฅ>ω<*ฅ) 噫又好了~`

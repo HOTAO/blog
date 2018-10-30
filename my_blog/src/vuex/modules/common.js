@@ -6,7 +6,12 @@ const state = {
   isBackEnd: false,
   uploadToken: {},
   staticleInfo: {},
-  syslogInfo: {}
+  syslogInfo: {},
+  articleMenuInfo: [],
+  articleMenuTag: '',
+  hasArticleMenu: false,
+  sourceArticleMenuInfo: [],
+  rightNavStatus: false
 }
 
 const getters = {
@@ -14,7 +19,12 @@ const getters = {
   uploadToken: state => state.uploadToken,
   staticleInfo: state => state.staticleInfo,
   syslogInfo: state => state.syslogInfo,
-  screenInfo: state => state.screenInfo
+  screenInfo: state => state.screenInfo,
+  articleMenuInfo: state => state.articleMenuInfo,
+  articleMenuTag: state => state.articleMenuTag,
+  hasArticleMenu: state => state.hasArticleMenu,
+  sourceArticleMenuInfo: state => state.sourceArticleMenuInfo,
+  rightNavStatus: state => state.rightNavStatus
 }
 
 const mutations = {
@@ -32,6 +42,21 @@ const mutations = {
   },
   [type.SET_SCREEN](state, screen) {
     state.screenInfo = screen
+  },
+  [type.SET_ARTICLE_MENU_INFO](state, data) {
+    state.articleMenuInfo = data
+  },
+  [type.SET_ARTICLE_MENU_TAG](state, data) {
+    state.articleMenuTag = data
+  },
+  [type.SET_ARTICLE_MENU_STATUS](state, data) {
+    state.hasArticleMenu = data
+  },
+  [type.SET_SCORE_ARTICLE_MENU_INFO](state, data) {
+    state.sourceArticleMenuInfo = data
+  },
+  [type.SET_RIGHT_NAV_STATUS](state, data) {
+    state.rightNavStatus = data
   }
 }
 
@@ -57,6 +82,21 @@ const actions = {
   async uploadToQiniu(store, params) {
     const result = await api.uploadToQiniu(params)
     return result
+  },
+  async setArticleMenuInfo(store, data) {
+    store.commit(type.SET_ARTICLE_MENU_INFO, data)
+  },
+  async setArticleMenuTag(store, data) {
+    store.commit(type.SET_ARTICLE_MENU_TAG, data)
+  },
+  async setArticleMenuStatus(store, data) {
+    store.commit(type.SET_ARTICLE_MENU_STATUS, data)
+  },
+  async setSourceArticleMenuInfo(store, data) {
+    store.commit(type.SET_SCORE_ARTICLE_MENU_INFO, data)
+  },
+  async setRightNavStatus(store, data) {
+    store.commit(type.SET_RIGHT_NAV_STATUS, data)
   }
 }
 

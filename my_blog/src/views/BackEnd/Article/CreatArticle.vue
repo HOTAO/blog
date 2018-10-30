@@ -35,8 +35,7 @@
   </div>
 </template>
 <script>
-// import api from '@/api'
-import marked from 'marked'
+import marked from '@/plugins/marked'
 import mdAddImage from '@/plugins/md_add_image'
 
 export default {

@@ -25,6 +25,11 @@ export const SET_STATISTICSINFO = 'common/SET_STATISTICSINFO'
 export const SET_SYSLOG = 'common/SET_SYSLOG'
 export const IS_BACKEND = 'common/IS_BACKEND'
 export const SET_SCREEN = 'common/SET_SCREEN'
+export const SET_ARTICLE_MENU_INFO = 'common/SET_ARTICLE_MENU_INFO'
+export const SET_ARTICLE_MENU_TAG = 'common/SET_ARTICLE_MENU_TAG'
+export const SET_ARTICLE_MENU_STATUS = 'common/SET_ARTICLE_MENU_STATUS'
+export const SET_SCORE_ARTICLE_MENU_INFO = 'common/SET_SCORE_ARTICLE_MENU_INFO'
+export const SET_RIGHT_NAV_STATUS = 'common/SET_RIGHT_NAV_STATUS'
 
 // comments
 export const SET_COMMENTS_INFO = 'comments/SET_COMMENTS_INFO'

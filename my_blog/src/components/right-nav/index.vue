@@ -2,40 +2,42 @@
   <div id="rightNav">
     <div class="nav-content" :style="{width:width}">
       <div class="nav-warp" :style="{width:width}">
-        <div class="nav-header">
-          <span>文章目录</span>
+        <div class="nav-header" v-if="hasArticleMenu">
+          <span :class="{'active':!isConfig}" @click="isConfig = false">文章目录</span>
           |
-          <span>站点信息</span>
+          <span :class="{'active':isConfig}" @click="isConfig = true">站点信息</span>
         </div>
-        <div class="nav-info">
-          <div class="article-menu"></div>
-          <div class="siet-info">
-            <img :src="baseInfo.avatar" alt="">
-            <p class="name">{{baseInfo.blog_name}}</p>
-            <p>{{baseInfo.sign}}</p>
+        <transition name="slide-fade" mode="out-in">
+          <articleMenu class="article-menu" v-if="!isConfig" :menu="articleMenuInfo"></articleMenu>
+          <div class="nav-info" v-if="isConfig">
+            <div class="siet-info">
+              <img :src="baseInfo.avatar" alt="">
+              <p class="name">{{baseInfo.blog_name}}</p>
+              <p>{{baseInfo.sign}}</p>
+            </div>
+            <div class="siet-menu">
+              <div class="menu-item" @click="$router.push({name:'Archives'})">
+                <p class="num">{{staticleInfo.publish_count}}</p>
+                <p>文章</p>
+              </div>
+              <div class="menu-item" @click="$router.push({name:'Classify'})">
+                <p class="num">{{staticleInfo.category_count}}</p>
+                <p>分类</p>
+              </div>
+              <div class="menu-item" @click="$router.push({name:'Classify'})">
+                <p class="num">{{staticleInfo.tag_count}}</p>
+                <p>标签</p>
+              </div>
+            </div>
+            <a class="github" :href="baseInfo.github" target="_black">
+              <i class="iconfont icon-github"></i>
+              github
+            </a>
           </div>
-          <div class="siet-menu">
-            <div class="menu-item" @click="$router.push({name:'Archives'})">
-              <p class="num">{{staticleInfo.publish_count}}</p>
-              <p>文章</p>
-            </div>
-            <div class="menu-item" @click="$router.push({name:'Classify'})">
-              <p class="num">{{staticleInfo.category_count}}</p>
-              <p>分类</p>
-            </div>
-            <div class="menu-item" @click="$router.push({name:'Classify'})">
-              <p class="num">{{staticleInfo.tag_count}}</p>
-              <p>标签</p>
-            </div>
-          </div>
-          <a class="github" :href="baseInfo.github" target="_black">
-            <i class="iconfont icon-github"></i>
-            github
-          </a>
-        </div>
+        </transition>
       </div>
     </div>
-    <div class="nav-toggle" :class="{'toggole-open':show,'toggole-close':!show}" @click="openNav">
+    <div class="nav-toggle" :class="{'toggole-open':rightNavStatus,'toggole-close':!rightNavStatus}" @click="_setRightNavStatus">
       <span class="toggle-line"></span>
       <span class="toggle-line"></span>
       <span class="toggle-line"></span>
@@ -43,16 +45,41 @@
   </div>
 </template>
 <script>
+import articleMenu from './article-menu'
 export default {
   name: 'rightNav',
   computed: {
-    ...mapGetters(['staticleInfo']),
+    ...mapGetters([
+      'staticleInfo',
+      'articleMenuInfo',
+      'hasArticleMenu',
+      'rightNavStatus'
+    ]),
     ...mapGetters('webConfig', ['baseInfo'])
+  },
+  components: {
+    articleMenu
   },
   data() {
     return {
       width: 0,
-      show: false
+      isConfig: true
+    }
+  },
+  watch: {
+    rightNavStatus: function(value) {
+      this._openNav(value)
+    },
+    hasArticleMenu: function(value) {
+      if (value) {
+        this.isConfig = false
+        this._openNav(true)
+        this.setRightNavStatus(true)
+      } else {
+        this.isConfig = true
+        this.setRightNavStatus(false)
+        this._openNav(false)
+      }
     }
   },
   created() {
@@ -60,13 +87,15 @@ export default {
   },
   methods: {
     ...mapActions('webConfig', ['getWebConfig']),
-    ...mapActions(['getHomeStatistics']),
+    ...mapActions(['getHomeStatistics', 'setRightNavStatus']),
     _getHomeStaticle() {
       return this.getHomeStatistics()
     },
-    openNav() {
-      this.show = !this.show
-      this.width = this.show ? '320px' : 0
+    _setRightNavStatus() {
+      this.setRightNavStatus(!this.rightNavStatus)
+    },
+    _openNav(value) {
+      this.width = value ? '320px' : 0
     }
   }
 }
@@ -93,15 +122,21 @@ export default {
       margin 20px 0
       font-size 16px
       font-weight bold
+      .active
+        color white
       span
         &:active
           color white
         &:hover
           color white
+    .article-menu
+      padding 5px 15px
+      transition all 0.3s
     .nav-info
       padding 0 20px
       max-height calc(100vh - 150px)
       overflow-y auto
+      margin-top 20px
       img
         width 100px
         height @width
@@ -188,4 +223,6 @@ export default {
     background-color white
     margin-top 4px
     transition all 0.3s
+  .slide-fade-enter, .slide-fade-leave-to
+    opacity 0
 </style>

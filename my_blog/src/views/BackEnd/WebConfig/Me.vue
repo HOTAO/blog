@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import marked from 'marked'
+import marked from '@/plugins/marked'
 import mdAddImage from '@/plugins/md_add_image'
 
 export default {
