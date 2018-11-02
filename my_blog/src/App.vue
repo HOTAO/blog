@@ -102,13 +102,21 @@ export default {
       if (this.hasArticleMenu) {
         let scrollTop =
           document.body.scrollTop || document.documentElement.scrollTop
-        this.sourceArticleMenuInfo.some(item => {
-          let top = document.getElementById(item.id).getBoundingClientRect().top
+        let len = this.sourceArticleMenuInfo.length
+        this.sourceArticleMenuInfo.some((item, index) => {
+          let jumpout = false
+          let last = index === len - 1
+          let id = last ? item.id : this.sourceArticleMenuInfo[index + 1].id
+          let top = document.getElementById(id).getBoundingClientRect().top
           top += scrollTop
-          if (scrollTop <= top) {
+          if (scrollTop <= top - 40) {
             this.setArticleMenuTag(item.tag)
+            jumpout = true
+          } else if (last) {
+            this.setArticleMenuTag(this.sourceArticleMenuInfo[len - 1].tag)
+            jumpout = true
           }
-          return scrollTop <= top
+          return jumpout
         })
       }
     },
