@@ -3,7 +3,7 @@
     <ul>
       <li v-for="item in menu" :key="item.text">
         <span @click="_toTitle(item)" :class="{'active': _heightLight(item) || _isParent(item)}">{{item.tag}} {{item.text}}</span>
-        <articleMenu :menu="item.children"></articleMenu>
+        <articleMenu :menu="item.children" v-show="_isParent(item)"></articleMenu>
       </li>
     </ul>
   </div>
