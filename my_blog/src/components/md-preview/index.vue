@@ -54,7 +54,6 @@ export default {
        */
       Array.prototype.map.call(nodeList, item => {
         let leval = item.tagName.replace('H', '')
-        // titleList没有，则第一个标题进入数组
         titleList.push({
           id: item.id,
           text: item.innerText,
@@ -75,13 +74,12 @@ export default {
       // 保存文章标题到vuex（即：没有判断父子标题的关系）
       this.setSourceArticleMenuInfo(source)
     },
-    _setTitleMune(titleList, tag = 0) {
+    _setTitleMune(titleList, tag = '') {
       let titles = []
-      let tempTag = 0
-      titleList.map(item => {
+      titleList.map((item, index) => {
         let len = titles.length
         if (len <= 0) {
-          item.tag = tag + ++tempTag + '.'
+          item.tag = `${tag}${index + 1}.`
           titles.push(item)
         } else {
           let lastTitle = titles[len - 1]
@@ -89,7 +87,7 @@ export default {
           if (lastTitle.leval < item.leval) {
             lastTitle.children.push(item)
           } else {
-            item.tag = tag + ++tempTag + '.'
+            item.tag = `${tag}${index + 1}.`
             titles.push(item)
           }
         }
@@ -102,9 +100,8 @@ export default {
       titles.map(title => {
         let children = title.children
         let levals = []
-        let tag = 0
-        children.map(child => {
-          child.tag = title.tag + ++tag + '.'
+        children.map((child, index) => {
+          child.tag = `${title.tag}${index + 1}.`
           if (levals.indexOf(child.leval) === -1) {
             levals.push(child.leval)
           }
