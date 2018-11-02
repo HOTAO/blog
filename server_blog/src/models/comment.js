@@ -64,7 +64,6 @@ const friends = {
   async getCommentsCounts({ articli_id = 0 } = {}) {
     let query = dbMethods.andWhere(arguments[0])
     const _sql = `select count(*) as total_count from ${table_name} ${query}`
-    console.log(_sql)
     const result = await dbUtil.query(_sql)
     return result
   }

@@ -13,8 +13,13 @@
       </el-form-item>
     </el-form>
     <div class="actions">
-      <el-button type="">表情</el-button>
-      <el-button type="primary" @click="_send">发送~</el-button>
+      <div class="btn">
+        <el-button type="" :class="{active:show}" @click="show = !show">表情</el-button>
+        <el-button type="primary" @click="_send">发送~</el-button>
+      </div>
+      <div class="emojis" v-show="show">
+        <span class="emoji" v-for="emoji in emojis" @click="_addEmoji(emoji)">{{emoji}} </span>
+      </div>
     </div>
     <div class="list">
       <div class="title">{{commentsInfo.count}}条留言</div>
@@ -50,6 +55,7 @@
   </div>
 </template>
 <script>
+import emojis from '@/utils/emoji'
 export default {
   name: 'comments',
   props: ['articleId'],
@@ -59,6 +65,8 @@ export default {
   },
   data() {
     return {
+      emojis: [],
+      show: false,
       comment: {
         name: '',
         email: '',
@@ -78,6 +86,9 @@ export default {
   },
   created() {
     this._getComments()
+    // const emojisArray =
+    console.log(emojis)
+    this.emojis = emojis
   },
   watch: {
     'comment.content': function(newVal) {
@@ -91,6 +102,9 @@ export default {
   },
   methods: {
     ...mapActions('comments', ['insertComment', 'getComments']),
+    _addEmoji(emoji) {
+      this.comment.content += emoji
+    },
     _getName(comment) {
       return comment.is_author ? `${comment.name}（作者）` : comment.name
     },
@@ -142,8 +156,34 @@ export default {
     padding 20px 0
     font-style italic
   .actions
-    display flex
-    justify-content space-between
+    .btn
+      display flex
+      justify-content space-between
+      align-items flex-end
+      z-index 10
+      button
+        &:first-child
+          background black
+          width 44px
+          height 25px
+          padding 0
+          color white
+      .active
+        border-radius 4px 4px 0 0
+        background white !important
+        color unset !important
+        border 1px solid $color-line
+        border-bottom-width 0
+    .emojis
+      width 70%
+      border 1px solid $color-line
+      padding 10px
+      margin-top -1px
+      span
+        display inline-block
+        margin-top 6px
+        margin-right 3px
+        cursor pointer
   .list
     padding-top 20px
     .title
