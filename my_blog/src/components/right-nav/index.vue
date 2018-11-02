@@ -9,7 +9,7 @@
         </div>
         <transition name="slide-fade" mode="out-in">
           <articleMenu class="article-menu" v-if="!isConfig" :menu="articleMenuInfo"></articleMenu>
-          <div class="nav-info" v-if="isConfig">
+          <div class="nav-info" v-else>
             <div class="siet-info">
               <img :src="baseInfo.avatar" alt="">
               <p class="name">{{baseInfo.blog_name}}</p>
@@ -125,8 +125,7 @@ export default {
       .active
         color white
       span
-        &:active
-          color white
+        transition all 0.3s
         &:hover
           color white
     .article-menu
@@ -137,6 +136,7 @@ export default {
       max-height calc(100vh - 150px)
       overflow-y auto
       margin-top 20px
+      transition all 0.3s
       img
         width 100px
         height @width
@@ -191,7 +191,7 @@ export default {
     z-index 1000
     cursor pointer
     line-height 0
-    padding 0 4px
+    padding 1px 4px 0
   .toggole-close
     &:hover
       .toggle-line
@@ -204,6 +204,7 @@ export default {
           transform rotate(45deg)
           top -3px
   .toggole-open
+    padding 4px 4px
     .toggle-line
       &:first-child
         width 100%
