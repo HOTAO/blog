@@ -21,18 +21,21 @@
           </span>
         </div>
       </transition>
+      <comments :articleId="1"></comments>
     </div>
   </div>
 </template>
 <script>
 import mdPreview from '@/components/md-preview'
+import comments from '@/components/comments'
 export default {
   name: 'Me',
   computed: {
     ...mapGetters('webConfig', ['meInfo', 'baseInfo'])
   },
   components: {
-    mdPreview
+    mdPreview,
+    comments
   },
   data() {
     return {
