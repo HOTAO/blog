@@ -2,7 +2,9 @@
   <div id="app">
     <div class="frontend-warp" v-if="!isBackEnd">
       <headerLayout></headerLayout>
-      <router-view class="view-warp" :style="{width: viewWidth}" />
+      <keep-alive>
+        <router-view class="view-warp" :style="{width: viewWidth}" />
+      </keep-alive>
       <footerLayout></footerLayout>
     </div>
     <div class="backend-warp" v-else>

@@ -34,7 +34,7 @@ module.exports = {
     )
   },
   // 去掉sourceMap
-  productionSourceMap: process.env.NODE_ENV === 'production',
+  productionSourceMap: process.env.NODE_ENV !== 'production',
   configureWebpack: {
     externals,
     plugins
