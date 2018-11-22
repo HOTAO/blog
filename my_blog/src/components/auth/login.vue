@@ -34,7 +34,6 @@ export default {
     _submit() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          console.log('验证通过')
           this.login(this.form)
             .then(() => {
               this.$notify({
@@ -47,7 +46,7 @@ export default {
               console.log(err)
               this.$notify({
                 title: '错误',
-                message: err.error || err,
+                message: err.data.error || err.data,
                 type: 'error'
               })
             })
