@@ -46,7 +46,7 @@ export default {
               console.log(err)
               this.$notify({
                 title: '错误',
-                message: err.data.error || err.data,
+                message: err.data.error || err.data || err,
                 type: 'error'
               })
             })
