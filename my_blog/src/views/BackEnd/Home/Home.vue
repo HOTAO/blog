@@ -95,22 +95,31 @@ export default {
     IconCard
   },
   computed: {
+    ...mapGetters('auth', ['isLogin']),
     ...mapGetters(['staticleInfo', 'syslogInfo']),
     ...mapGetters('article', ['server_articleListInfo'])
   },
+  watch: {
+    isLogin(value) {
+      if (value) this._initHome()
+    }
+  },
   async created() {
-    this._getArticlesForServer()
-    this._getSysLog()
-    await this._getHomeStaticle()
-    this.list[0].middleMessage = this.staticleInfo.publish_count
-    this.list[1].middleMessage = this.staticleInfo.drafts_count
-    this.list[2].middleMessage = this.staticleInfo.deleted_count
-    this.list[3].middleMessage = this.staticleInfo.category_count
-    this.list[4].middleMessage = this.staticleInfo.tag_count
+    await this._initHome()
   },
   methods: {
     ...mapActions(['getHomeStatistics', 'getSysLog']),
     ...mapActions('article', ['getArticlesForServer']),
+    async _initHome() {
+      this._getArticlesForServer()
+      this._getSysLog()
+      await this._getHomeStaticle()
+      this.list[0].middleMessage = this.staticleInfo.publish_count
+      this.list[1].middleMessage = this.staticleInfo.drafts_count
+      this.list[2].middleMessage = this.staticleInfo.deleted_count
+      this.list[3].middleMessage = this.staticleInfo.category_count
+      this.list[4].middleMessage = this.staticleInfo.tag_count
+    },
     _getSysLog(value = '') {
       if (value) {
         if (value === 'last' && this.logParams.page > 1) {
