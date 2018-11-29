@@ -8,7 +8,7 @@ const tag = {
     let result = await dbUtils.insertData(table_name, model)
     return result
   },
-  async getTags({ page = 1, pageSize = 10 } = {}) {
+  async getTags({ page = 1, pageSize = 100 } = {}) {
     let result = []
     const _sql = `select * from tag limit ${(page - 1) *
       pageSize}, ${pageSize} `
