@@ -22,7 +22,9 @@ const admin = {
       await sysLog.insertSysLog(`管理员${result.data.username}登录了系统`)
       ctx.response.body = { userInfo: result, authInfo }
     } else {
-      ctx.response.body = { result }
+      ctx.response.status = result.status
+      delete result.status
+      ctx.response.body = { error: result.error }
     }
   }
 }
