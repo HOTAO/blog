@@ -2,7 +2,7 @@
   <div id="app">
     <div class="frontend-warp" v-if="!isBackEnd">
       <headerLayout></headerLayout>
-      <keep-alive>
+      <keep-alive exclude="articles">
         <router-view class="view-warp" :style="{width: viewWidth}" />
       </keep-alive>
       <footerLayout></footerLayout>
