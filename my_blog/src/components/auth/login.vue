@@ -43,7 +43,6 @@ export default {
               })
             })
             .catch(err => {
-              console.log(err)
               this.$notify({
                 title: '错误',
                 message: err.data.error || err.data || err,

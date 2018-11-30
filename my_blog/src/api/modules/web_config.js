@@ -5,7 +5,6 @@ export default {
     return request.get('/getWebConfig')
   },
   insertWebConfig(data) {
-    console.log(data)
     return request.post('/verify/insertWebConfig', data)
   },
   updateWebConfig(id, data) {

@@ -87,7 +87,6 @@ export default {
   created() {
     this._getComments()
     // const emojisArray =
-    console.log(emojis)
     this.emojis = emojis
   },
   watch: {

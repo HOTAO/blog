@@ -62,7 +62,6 @@ export default {
         })
       })
       let tree = this._setTitleMune(titleList)
-      console.log(tree)
       let source = JSON.parse(JSON.stringify(titleList))
       source.forEach(item => {
         item.children = []
@@ -130,7 +129,7 @@ export default {
        * 这部分的需要获取img的宽度和高度，虽然已经有img存在了
        * 单数由于渲染的速度问题，会导致拿不到宽度和高度。
        * 所以，把这部分抽出来，在点击图片的时候，去设置高度和宽度等信息
-      */
+       */
       Array.prototype.slice.call(imgDomList).forEach((img, index) => {
         img.indexTag = index
         this.imgList.push({

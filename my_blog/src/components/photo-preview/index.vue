@@ -105,7 +105,6 @@ export default {
       let height = window.innerHeight
       list.forEach(item => {
         let ratio = item.w / item.h
-        console.log(item.w, item.h)
         if (width > height) {
           item.w = height * ratio
           item.h = height
@@ -113,11 +112,8 @@ export default {
           item.h = width / ratio
           item.w = width
         }
-        console.log(ratio, width, height)
-        console.log(item.w, item.h)
       })
       this.photoswipe = new PhotoSwipe(this.$el, UI, list, options)
-      console.log('photoswipe:', this.photoswipe)
       this.photoswipe.init()
     },
     close() {

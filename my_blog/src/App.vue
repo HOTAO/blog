@@ -85,7 +85,6 @@ export default {
         temp = 340
       }
       this.viewWidth = this.screenInfo.width - temp + 'px'
-      console.log(this.viewWidth)
     },
     _updateScreenInfo() {
       this.setScreenInfo({
