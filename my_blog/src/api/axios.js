@@ -10,7 +10,6 @@ const Api =
   process.env.NODE_ENV === 'production'
     ? 'http://api.hotao.work/api'
     : 'http://localhost:4000/api'
-
 export let API_ROOT = Api
 
 axios.defaults.baseURL = API_ROOT

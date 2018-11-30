@@ -3,6 +3,7 @@ const path = require('path')
 const webpack = require('webpack')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const plugins = [
   new webpack.ProvidePlugin({
@@ -37,7 +38,28 @@ module.exports = {
   productionSourceMap: process.env.NODE_ENV !== 'production',
   configureWebpack: {
     externals,
-    plugins
+    plugins,
+    optimization: {
+      minimizer: [
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            compress: {
+              warnings: false,
+              drop_console: true, //console
+              drop_debugger: false,
+              collapse_vars: true,
+              pure_funcs: ['console.log'] //移除console
+            },
+            output: {
+              // 去掉注释
+              comments: false
+            },
+            // 最紧凑的输出
+            beautify: false
+          }
+        })
+      ]
+    }
   }
 }
 // 这个就有点厉害了，所有的页面，都不需要再引入color.styl文件了，可以直接使用color.styl里面的颜色变了了。相当于 全局声明了这个文件里的变量。
