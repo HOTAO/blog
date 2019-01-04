@@ -23,7 +23,8 @@ if (process.env.NODE_ENV === 'production') {
     'vue-router': 'VueRouter',
     'element-ui': `'element-ui'`,
     moment: 'moment',
-    marked: 'marked'
+    marked: 'marked',
+    'highlight.js': 'hljs'
   }
 }
 

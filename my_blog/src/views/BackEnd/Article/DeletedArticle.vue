@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       params: {
-        status: 2,
+        status: 0,
         page: 1,
         pageSize: 10
       }

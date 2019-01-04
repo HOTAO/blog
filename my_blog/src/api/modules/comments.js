@@ -8,7 +8,7 @@ export default {
     return request.get('/getComments', { params })
   },
   insertComment(data) {
-    return request.post('/verify/insertComment', data)
+    return request.post('/insertComment', data)
   },
   updateComment(cid, options) {
     return request.patch(`/verify/updateComment/${cid}`, options)

@@ -22,7 +22,7 @@ const commentController = require('../controllers/comment')
 const routers = router
   .get('/getAllComments', commentController.getAllComments)
   .get('/getComments', commentController.getComments)
-  .post('/verify/insertComment', commentController.insertComment)
+  .post('/insertComment', commentController.insertComment)
   .delete('/verify/deleteComment/:id', commentController.deleteCommentById)
   .patch('/verify/updateComment/:id', commentController.updateComment)
 

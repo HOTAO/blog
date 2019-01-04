@@ -1,8 +1,7 @@
 <template>
-  <div id="mdPreview">
+  <div id="mdPreview" v-highlight>
     <link href="//cdn.bootcss.com/github-markdown-css/2.4.1/github-markdown.css" rel="stylesheet">
-    <section id="markdown-preview-body" class=" markdown-body" v-html="content">
-    </section>
+    <section id="markdown-preview-body" class="markdown-body" v-html="content"></section>
   </div>
 </template>
 <script>
@@ -86,7 +85,7 @@ export default {
           if (lastTitle.leval < item.leval) {
             lastTitle.children.push(item)
           } else {
-            item.tag = `${tag}${index + 1}.`
+            item.tag = `${tag}${len + 1}.`
             titles.push(item)
           }
         }
