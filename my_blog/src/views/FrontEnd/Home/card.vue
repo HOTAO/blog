@@ -64,6 +64,7 @@ export default {
         &:hover
           hover-underline-animation(0, 0, 2px, white, 0, 0, 0, 100%)
     img
+      max-height 600px
       width 100%
       filter brightness(0.7)
   .article-info

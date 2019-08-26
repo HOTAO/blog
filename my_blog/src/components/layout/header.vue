@@ -162,6 +162,7 @@ export default {
       padding 8px 15px
       font-size 12px
       line-height 1
+      cursor pointer
       .iconfont
         font-size 12px
         margin-right 5px

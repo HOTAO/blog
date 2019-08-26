@@ -1,20 +1,29 @@
 <template>
   <div id="articleCard">
     <div class="card-item">
-      <div class="article-title">{{article.title}}</div>
+      <div
+        class="article-title"
+        @click="$router.push({name:'Article',params:{id:article.id}})"
+      >{{article.title}}</div>
       <div class="article-info">
         <i class="iconfont icon-calendar"></i>
         <span>发表于 {{article.createTime | timeFormat('LL')}}</span>
         <i class="iconfont icon-folder"></i>
-        <span class="article-category" @click="$router.push({name: 'ArticleList',query:{type:'category',id: article.category_id}})">{{article.categoryName}}</span>
+        <span
+          class="article-category"
+          @click="$router.push({name: 'ArticleList',query:{type:'category',id: article.category_id}})"
+        >{{article.categoryName}}</span>
         <i class="iconfont icon-eye"></i>
         <span>{{article.pageview}}次围观</span>
       </div>
-      <div class="article-dec">
-        {{article.dec}}
-      </div>
+      <div class="article-dec">{{article.dec}}</div>
       <div class="acticle-tags">
-        <div class="tag" v-for="tag in tags" :key="tag.tag_id" @click="$router.push({name: 'ArticleList',query:{type:'tag',id: tag.tag_id}})">
+        <div
+          class="tag"
+          v-for="tag in tags"
+          :key="tag.tag_id"
+          @click="$router.push({name: 'ArticleList',query:{type:'tag',id: tag.tag_id}})"
+        >
           <i class="iconfont icon-tag"></i>
           <span>{{tag.tag_name}}</span>
         </div>
@@ -40,7 +49,7 @@ export default {
     font-size 22px
     color $color-main
     cursor pointer
-    @media (max-width 768px)
+    @media (max-width: 768px)
       font-size 18px
   .article-info
     // display flex
@@ -49,7 +58,7 @@ export default {
     font-size 14px
     margin 20px 0
     color $color-mid-grey
-    @media (max-width 768px)
+    @media (max-width: 768px)
       font-size 12px
     .article-category
       cursor pointer
@@ -61,7 +70,7 @@ export default {
     color $color-mid-grey
     border-left 2px solid $color-mid-grey
     padding-left 5px
-    @media (max-width 768px)
+    @media (max-width: 768px)
       font-size 14px
   .acticle-tags
     display flex
