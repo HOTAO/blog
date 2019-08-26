@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 const plugins = [
   new webpack.ProvidePlugin({
@@ -16,6 +17,15 @@ const plugins = [
 let externals = {}
 if (process.env.analyze === 'true') {
   plugins.push(new BundleAnalyzerPlugin())
+}
+if (process.env.NODE_ENV === 'production') {
+  plugins.push(
+    new CompressionPlugin({
+      test: /\.js$|\.html$|\.css/,
+      threshold: 10240,
+      deleteOriginalAssets: false
+    })
+  )
 }
 if (process.env.NODE_ENV === 'production') {
   externals = {
@@ -38,6 +48,9 @@ module.exports = {
   // 去掉sourceMap
   productionSourceMap: process.env.NODE_ENV !== 'production',
   configureWebpack: {
+    devServer: {
+      port: 3000
+    },
     externals,
     plugins,
     optimization: {

@@ -9,7 +9,8 @@ import * as type from '../vuex/types'
 const Api =
   process.env.NODE_ENV === 'production'
     ? 'http://api.hotao.work/api'
-    : 'http://localhost:4000/api'
+    : 'http://api.hotao.work/api'
+// : 'http://localhost:4000/api'
 export let API_ROOT = Api
 
 axios.defaults.baseURL = API_ROOT
@@ -17,8 +18,8 @@ axios.defaults.headers.Accept = 'application/json'
 
 axios.interceptors.request.use(
   config => {
-    const token = cache.lsCache.get('token')
-    token && (config.headers['Web-Access-Token'] = token)
+    // const token = cache.lsCache.get('token')
+    // token && (config.headers['Web-Access-Token'] = token)
     if (
       config.method === 'post' ||
       config.method === 'put' ||
