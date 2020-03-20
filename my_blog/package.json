@@ -38,6 +38,6 @@
     "uglifyjs-webpack-plugin": "^2.0.1",
     "vue-cli-plugin-axios": "^0.0.4",
     "vue-template-compiler": "^2.5.17",
-    "webpack-bundle-analyzer": "^3.0.3"
+    "webpack-bundle-analyzer": "^3.3.2"
   }
 }
