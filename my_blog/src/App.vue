@@ -2,7 +2,7 @@
   <div id="app">
     <div class="frontend-warp" v-if="!isBackEnd">
       <headerLayout></headerLayout>
-      <keep-alive exclude="articles">
+      <keep-alive :exclude="['articles','Me']">
         <router-view class="view-warp" :style="{width: viewWidth}" />
       </keep-alive>
       <footerLayout></footerLayout>
@@ -45,25 +45,25 @@ export default {
     ...mapGetters('auth', ['isLogin'])
   },
   watch: {
-    screenInfo(value) {
+    screenInfo (value) {
       this._setViewWidth()
       this.isPc = true
       if (value.width <= 768) {
         this.isPc = false
       }
     },
-    rightNavStatus: function(value) {
+    rightNavStatus: function (value) {
       this._setViewWidth()
     }
   },
-  data() {
+  data () {
     return {
       showScrollToTop: false,
       viewWidth: '1000px',
       isPc: true
     }
   },
-  mounted() {
+  mounted () {
     document.title = `(ฅ>ω<*ฅ) 噫又好了~`
     this._updateScreenInfo()
     window.addEventListener('resize', this._updateScreenInfo)
@@ -72,27 +72,27 @@ export default {
     this.evtname = visProp.replace(/[H|h]idden/, '') + 'visibilitychange'
     document.addEventListener(this.evtname, this._visibilityChange, false)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     window.removeEventListener('resize', this._updateScreenInfo, false)
     window.removeEventListener('scroll', this._scrollListener, false)
     document.removeEventListener(this.evtname, this._visibilityChange, false)
   },
   methods: {
     ...mapActions(['setScreenInfo', 'setArticleMenuTag']),
-    _setViewWidth() {
+    _setViewWidth () {
       let temp = 20
       if (this.screenInfo.width > 768 && this.rightNavStatus) {
         temp = 340
       }
       this.viewWidth = this.screenInfo.width - temp + 'px'
     },
-    _updateScreenInfo() {
+    _updateScreenInfo () {
       this.setScreenInfo({
         width: document.body.clientWidth,
         height: document.body.clientHeight
       })
     },
-    _scrollListener() {
+    _scrollListener () {
       let scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop
       if (scrollTop >= 90) {
@@ -121,7 +121,7 @@ export default {
         })
       }
     },
-    _getHiddenProp() {
+    _getHiddenProp () {
       var prefixes = ['webkit', 'moz', 'ms', 'o']
       // if 'hidden' is natively supported just return it
       if ('hidden' in document) {
@@ -136,7 +136,7 @@ export default {
       // otherwise it's not supported
       return null
     },
-    _getVisibilityState() {
+    _getVisibilityState () {
       var prefixes = ['webkit', 'moz', 'ms', 'o']
       if ('visibilityState' in document) return 'visibilityState'
       for (var i = 0; i < prefixes.length; i++) {
@@ -147,7 +147,7 @@ export default {
       // otherwise it's not supported
       return null
     },
-    _visibilityChange() {
+    _visibilityChange () {
       switch (document[this._getVisibilityState()]) {
         case 'visible':
           document.title = `(ฅ>ω<*ฅ) 噫又好了~`

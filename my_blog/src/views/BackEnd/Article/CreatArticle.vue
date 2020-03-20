@@ -1,18 +1,34 @@
 <template>
   <div id="creatArticle">
-    <div class="title">编辑文章
+    <div class="title">
+      编辑文章
       <div class="actions">
-        <p>已保存至<span>草稿箱</span></p>
+        <el-button v-if="!articleId" type="warning" @click="saveActicle">保存至草稿箱</el-button>
         <el-button v-if="!articleId" @click="_publishActicle" type="primary">发布</el-button>
         <el-button v-else @click="_updateActicle" type="primary">更新</el-button>
       </div>
     </div>
     <div class="article-edit">
-      <mavon-editor class="editor" ref="md" @imgAdd="_mdImgAdd" @change="_updateActicleForDrafts" v-model="article.content" @htmlCode="_htmlCode" />
+      <mavon-editor
+        class="editor"
+        ref="md"
+        @imgAdd="_mdImgAdd"
+        @change="_updateActicleForDrafts"
+        v-model="article.content"
+        @htmlCode="_htmlCode"
+      />
       <div class="article-info">
         <div class="upload">
-          <el-upload class="cover-uploader" action="//up-z2.qiniup.com" :data="uploadToken" :show-file-list="false" :on-success="_handleCoverSuccess" :on-error="_handleCoverError" :before-upload="_beforeCoverUpload">
-            <img v-if="article.cover" :src="article.cover">
+          <el-upload
+            class="cover-uploader"
+            action="//up-z2.qiniup.com"
+            :data="uploadToken"
+            :show-file-list="false"
+            :on-success="_handleCoverSuccess"
+            :on-error="_handleCoverError"
+            :before-upload="_beforeCoverUpload"
+          >
+            <img v-if="article.cover" :src="article.cover" />
             <span v-else>上传封面</span>
             <div class="upload-cover">
               <i class="el-icon-plus cover-uploader-icon"></i>
@@ -20,15 +36,42 @@
           </el-upload>
         </div>
         <el-input v-model="article.title" size="mini" placeholder="标题"></el-input>
-        <el-input v-model="article.dec" type="textarea" size="mini" :rows="6" :maxlength="150" placeholder="简介"></el-input>
+        <el-input
+          v-model="article.dec"
+          type="textarea"
+          size="mini"
+          :rows="6"
+          :maxlength="150"
+          placeholder="简介"
+        ></el-input>
         <el-checkbox label="阅读加密" size="mini" v-model="article.isSecret"></el-checkbox>
-        <br>
+        <br />
         <el-select size="mini" v-model="article.category_id" placeholder="文章分类">
-          <el-option size="mini" v-for="cate in categorysInfo.list" :key="cate.id" :value="cate.id" :label="cate.name"></el-option>
+          <el-option
+            size="mini"
+            v-for="cate in categorysInfo.list"
+            :key="cate.id"
+            :value="cate.id"
+            :label="cate.name"
+          ></el-option>
         </el-select>
-        <br>
-        <el-select size="mini" v-model="tags" multiple filterable allow-create default-first-option placeholder="文章标签">
-          <el-option size="mini" v-for="tag in tagsInfo.list" :key="tag.id" :value="tag.id" :label="tag.name"></el-option>
+        <br />
+        <el-select
+          size="mini"
+          v-model="tags"
+          multiple
+          filterable
+          allow-create
+          default-first-option
+          placeholder="文章标签"
+        >
+          <el-option
+            size="mini"
+            v-for="tag in tagsInfo.list"
+            :key="tag.id"
+            :value="tag.id"
+            :label="tag.name"
+          ></el-option>
         </el-select>
       </div>
     </div>
@@ -46,7 +89,7 @@ export default {
     ...mapGetters('article', ['articleData']),
     ...mapGetters('classify', ['categorysInfo', 'tagsInfo'])
   },
-  data() {
+  data () {
     return {
       tags: [],
       article: {
@@ -61,7 +104,7 @@ export default {
       draftInrerval: ''
     }
   },
-  async created() {
+  async created () {
     this.getTags()
     this.getCategory()
     this.articleId = this.$route.params.articleId
@@ -84,18 +127,18 @@ export default {
       'updateArticleById'
     ]),
     ...mapActions('classify', ['getCategory', 'getTags']),
-    _mdImgAdd(pos, file) {
+    _mdImgAdd (pos, file) {
       this._imgAdd(pos, file, this.getUploadToken, this.uploadToQiniu)
     },
-    _handleCoverError(err, file, fileList) {
+    _handleCoverError (err, file, fileList) {
       console.log(err, file, fileList)
     },
-    _handleCoverSuccess(res, file) {
+    _handleCoverSuccess (res, file) {
       console.log(res, file)
       // this.article.cover = URL.createObjectURL(file.raw)
       this.article.cover = res.url
     },
-    _beforeCoverUpload(file) {
+    _beforeCoverUpload (file) {
       console.log(file)
       const isJPG = file.type === 'image/jpeg' || 'png'
       const isLt2M = file.size / 1024 / 1024 < 2
@@ -108,22 +151,22 @@ export default {
       }
       return isJPG && isLt2M
     },
-    _getCategory() {
+    _getCategory () {
       this.getCategory()
     },
-    _getTags() {
+    _getTags () {
       this.getTags()
     },
-    _getUploadToken() {
+    _getUploadToken () {
       this.getUploadToken()
     },
-    _getArticleInfoById(id) {
+    _getArticleInfoById (id) {
       return this.getArticleInfoById(id)
     },
-    _htmlCode(a, b) {
+    _htmlCode (a, b) {
       console.log(a, b)
     },
-    _getParams() {
+    _getParams (status) {
       let html = marked(this.article.content)
       let params = {
         title: this.article.title,
@@ -133,37 +176,17 @@ export default {
         content: this.article.content,
         category_id: this.article.category_id,
         tags: JSON.stringify(this.tags),
-        htmlContent: html
+        htmlContent: html,
+        status
       }
       return params
     },
     // TODO 存草稿
-    _updateActicleForDrafts(value) {
+    _updateActicleForDrafts (value) {
       console.log(value)
-      // return
-      // if (!value) return
-      // if (this.draftInrerval) clearInterval(this.draftInrerval)
-      // let a = 3
-      // this.draftInrerval = setInterval(() => {
-      //   a--
-      //   if (a <= 0) {
-      //     clearInterval(this.draftInrerval)
-      //     const params = this._getParams()
-      //     this.insertArticle(params)
-      //       .then(() => {})
-      //       .catch(err => {
-      //         this.$notify({
-      //           title: '错误',
-      //           message: '添加文章错误',
-      //           type: 'error'
-      //         })
-      //         console.log(err)
-      //       })
-      //   }
-      // }, 1000)
     },
-    _updateActicle() {
-      const params = this._getParams()
+    _updateActicle () {
+      const params = this._getParams(1)
       console.log(params)
       params.aid = this.articleId
       this.updateArticleById(params)
@@ -185,8 +208,8 @@ export default {
           })
         })
     },
-    _publishActicle() {
-      const params = this._getParams()
+    _publishActicle () {
+      const params = this._getParams(1)
       console.log(params)
       // return
       this.insertArticle(params)
@@ -203,6 +226,27 @@ export default {
           this.$notify({
             title: '失败',
             message: '文章发表失败',
+            type: 'error'
+          })
+          console.log(err)
+        })
+    },
+    saveActicle () {
+      const params = this._getParams(2)
+      this.insertArticle(params)
+        .then(res => {
+          this.$notify({
+            title: '成功',
+            message: '文章已存入草稿箱',
+            type: 'success'
+          })
+          this.$router.push({ name: 'BackEndHome' })
+          console.log(res)
+        })
+        .catch(err => {
+          this.$notify({
+            title: '失败',
+            message: '文章已存入草稿箱失败',
             type: 'error'
           })
           console.log(err)

@@ -12,7 +12,7 @@ const articleController = {
    * @date 2018-09-04
    * @param {*} ctx
    */
-  async getArticlesForWeb(ctx) {
+  async getArticlesForWeb (ctx) {
     const list = await db_article.getArticles(ctx.query)
     const count = await db_article.getArticlesCount(ctx.query)
     const resultList = []
@@ -30,7 +30,7 @@ const articleController = {
    * @date 2018-09-04
    * @param {*} ctx
    */
-  async getArticlesForServer(ctx) {
+  async getArticlesForServer (ctx) {
     const list = await db_article.getArticles(ctx.query)
     const count = await db_article.getArticlesCount(ctx.query)
     ctx.body = { list, count: count[0].total_count || 0 }
@@ -42,7 +42,7 @@ const articleController = {
    * @date 2018-09-14
    * @param {*} ctx
    */
-  async getArticleInfoById(ctx) {
+  async getArticleInfoById (ctx) {
     const article_id = ctx.params.article_id
     const result = await db_article.getArticleInfoById(article_id)
     const tags = await db_article_tag_mapper.getTagsByArticleId(article_id)
@@ -55,7 +55,7 @@ const articleController = {
    * @date 2018-09-19
    * @param {*} ctx
    */
-  async getArticleByTag(ctx) {
+  async getArticleByTag (ctx) {
     const tag_id = ctx.params.tag_id
     const result = await db_article_tag_mapper.getArticlesByTagId(tag_id)
     if (result.length <= 0) {
@@ -83,7 +83,7 @@ const articleController = {
    * @date 2018-09-04
    * @param {*} ctx
    */
-  async insertArticle(ctx) {
+  async insertArticle (ctx) {
     const now = +new Date()
     const post_data = ctx.request.body
     const a_id = md5.creatId()
@@ -98,7 +98,7 @@ const articleController = {
       category_id: post_data.category_id,
       create_time: now,
       update_time: now,
-      status: 2
+      status: post_data.status || 2
     }
     // post_data.create_time = parseInt(now / 1000)
     await db_article.insertArticle(article)
@@ -153,7 +153,7 @@ const articleController = {
    * @date 2018-09-05
    * @param {*} ctx
    */
-  async updateArticleById(ctx) {
+  async updateArticleById (ctx) {
     const now = +new Date()
     const post_data = ctx.request.body
     const article_id = ctx.params.id
@@ -235,7 +235,7 @@ const articleController = {
     ctx.status = result.status
     ctx.body = result
   },
-  async updateArticleByStatus(ctx) {
+  async updateArticleByStatus (ctx) {
     const post_data = ctx.request.body
     const article_id = ctx.params.id
     await db_article.updateArticleByStatus(article_id, post_data)
@@ -243,19 +243,19 @@ const articleController = {
       post_data === 2 ? '已发布' : post_data === 1 ? '未发布' : '已删除'
     await sysLog.insertSysLog(
       `管理员${global.userInfo.username}修改了文章《${
-        post_data.title
+      post_data.title
       }》的状态为${text}`
     )
     const result = { status: 200, message: '修改成功' }
     ctx.status = result.status
     ctx.body = result
   },
-  async deleteArticleById(ctx) {
+  async deleteArticleById (ctx) {
     const result = await db_article.getArticleInfoById(article_id)
     await db_article.deleteArticleById(ctx.query.id)
     await sysLog.insertSysLog(
       `管理员${global.userInfo.username}删除了文章《${
-        result.articleInfo[0].title
+      result.articleInfo[0].title
       }》`
     )
     const result = { status: 200, message: '删除成功' }
